@@ -1,0 +1,137 @@
+@font-face {
+font-family: "Alegreya Sans";
+src: url("AlegreyaSansSC/AlegreyaSansSC-Thin.ttf");
+}
+
+@font-face {
+font-family: "Cantarell";
+src: url("Cantarell/Cantarell-Regular.ttf");
+}
+
+body{
+	font-family: "Cantarell";
+	font-size: 15px;
+}
+
+.container{
+	padding-top: 20px;
+    background-color: #778899;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    right: 0px;
+    padding-bottom: 10px;
+    height: 150px;
+    max-width: 100%;
+}
+
+h1{
+	font-size: 25px;
+}
+
+h2{
+	font-size: 16px;
+	font-weight: normal;
+}
+
+h1, h2{
+	color: #FFFFFF;
+	text-align: center;
+}
+
+.Nav-bar {
+	top: 20px;
+	background-color: #778899; 
+	margin: 0;
+    padding: 0;
+    display: block;
+	list-style-type: none;
+    text-align: center;
+    position: relative;
+}
+
+.Nav-bar li {
+	border-right: 1px Solid #FFFFFF;
+	color: #FFFFFF;
+	display: inline;
+	margin: 10px;
+	padding-right: 30px;
+	font-size: 15px;
+}
+
+.Nav-bar li a{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.Nav-bar li a.active{
+	text-decoration: underline;
+}
+
+.Nav-bar li a:hover{
+	color: #FFFFFFF;
+	text-decoration: underline;
+}
+
+.Nav-bar li:last-child {
+	border-right: none;
+}
+
+.Contents {
+	position: relative;
+	top: 180px;
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+	}
+
+
+.footer {
+	height: 50px;
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+	background-color: #778899;
+}
+ .incorrect {
+ 	color: red;
+ }
+
+ .content {
+ 	top: 200px;
+ 	width: 460px;
+ 	margin: 0 auto;
+ 	position: relative;
+ 	text-align: center;
+ }
+
+ .titles {
+	width: 155px;
+	float: left;
+	line-height: 34px;
+	text-align: left;
+	margin-right: 5px;
+}
+p{
+	text-align: left;
+}
+
+.inputForm {
+	width: 300px;
+	float: left;
+}
+
+.input{
+	margin: 6px;
+	width: 300px;
+}
+
+p.error{
+	color: red;
+	margin-bottom: 5px;
+}
+
+.radio {
+	width: 35px;
+	margin: 0px 10px 0px 10px;
+}
