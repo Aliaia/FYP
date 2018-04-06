@@ -13,6 +13,14 @@ function getData($database, $query) {
 	return $cursor;
 }
 
+function getConditionData($ID) {
+	global $connect;
+
+	$query = new MongoDB\Driver\Query(['Identification' => $ID]);
+	$cursor = $connect->executeQuery('FYP.ConditionData', $query);
+	return $cursor;
+}
+
 function writeData($database, $data){
 	global $connect;
 
