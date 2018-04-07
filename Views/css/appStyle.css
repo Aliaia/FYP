@@ -136,3 +136,23 @@ path.domain {
 .grid path {
       stroke-width: 0;
 }
+
+svg g text {
+	font: 10px sans-serif;
+	text-anchor: middle;
+}
+
+svg text {
+	font: 12px sans-serif;
+	text-anchor: middle;
+}
+
+.legendText {
+	text-anchor: start;
+}
+
+.showData {
+	width: 100px;
+	height: 100px;
+	color: grey;
+}
