@@ -4,18 +4,18 @@ function createGraph(name, userData, variables) {
 
 	graphData = dataFormatting(variables, userData);
 
- 	var DateMinMax = [graphData[0].x, graphData[3].x];
+ 	var DateMinMax = [graphData[0].Date, graphData[3].Date];
  	var DataMinMax = getRange(graphData);
 	
-    var width = 1000;
+    var width = 1200;
     var height = 300;
-    var margin = {top: 20, right: 520, bottom: 70, left: 50};
+    var margin = {top: 20, right: 720, bottom: 70, left: 50};
     var innerwidth = width - margin.left - margin.right;
     var innerheight = height - margin.top - margin.bottom ;
 
     var vis = d3.select("#newGraphs")
     		.append("svg")
-    		.attr("id", name)
+    		.attr("id", name.replace(/\s/g, ''))
             .attr("width", width)
             .attr("height", height)
     	
@@ -24,20 +24,25 @@ function createGraph(name, userData, variables) {
 	   	showData.append("tspan")
 	    	.text("Graph Data:")
 	    	.attr('y', margin.top)
+	    	.attr('x', 0)
 	    	.style('fill', 'grey')
+	    	.style('font-size', '15px')
 
 	    showData.append("tspan")
 	    	.text("Roll over a data point to view.")
 	    	.attr('y', (margin.top + 20))
+	    	.attr('x', (0))
+	    	.attr('text-anchor', 'start')
 	    	.style('fill', 'grey')
+	    	.style('font-size', '10px')
 
 	}
 
-	var showData = d3.select("#newGraphs").select("svg").append("text")
-    	.attr("class", "showData")
+	var showData = d3.select("#newGraphs").select('#' + name.replace(/\s/g, '')).append("text")
+    	.attr("id", "showData")
     	.text("")
-    	.attr("transform", "translate(" + (margin.right + 120) + "," + (margin.top)+")")
-    
+    	.attr("transform", "translate(" + (margin.right - 70) + "," + (margin.top)+")")
+
     addText();
 
     var xScale = d3.time.scale()
@@ -54,11 +59,11 @@ function createGraph(name, userData, variables) {
 
     for(attribute in graphData[0]){
     	
-    	if(attribute != 'x'){
+    	if(attribute != 'Date'){
 
 	    	var lineGen = d3.svg.line()
 	            .x(function(d) {
-	              return xScale(d.x);
+	              return xScale(d.Date);
 	            })
 	            .y(function(d) {
 	              return yScale(d[attribute]);
@@ -79,7 +84,7 @@ function createGraph(name, userData, variables) {
 			    .enter()
 
 		    circles.append("circle")
-			    .attr("cx", function (d) { return xScale(d.x); })
+			    .attr("cx", function (d) { return xScale(d.Date); })
 			    .attr("cy", function (d) {return yScale(d[attribute]); })
 			    .attr("transform", "translate(" + (margin.left) + "," + (margin.top) + ")")
 			    .attr('stroke', colorOrder[0])
@@ -107,15 +112,39 @@ function createGraph(name, userData, variables) {
 
     function handleMouseOver(d, i) {
     	var points = d3.select(this).data();
+    	var position = margin.top
+    	
     	showData.text("");
-    	showData.append("tspan")
-    		.text("Selected Point: ")
-    		.attr('y', margin.top)
+		showData.append("tspan")
+	    	.text("Graph Data:")
+	    	.attr('y', margin.top)
+	    	.attr('x', 0)
+	    	.style('fill', 'black')
+	    	.style('font-size', '15px')
+    	position = position + 20;
 
-    	// showData.text(points[0]['Diastolic Pressure']);
+    	for (key in points[0]){
+    		showData.append("tspan")
+	    		.text(format(key) + ": " + (format(points[0][key])))
+	    		.attr('y', (position))
+	    		.attr('x', (-10))
+	    		.style('text-anchor', 'start')
+	    		.style('font-size', '10px')
+
+	    	// console.log(points[0][key])
+    		position = position + 20;
+    	}
+
         d3.select(this).attr({
           r: 3 * 2
         });
+    }
+
+    function format(entry){
+    	if (typeof(entry) == "object") {
+    		entry = entry.toDateString();
+    	} 
+    	return entry
     }
 
     function handleMouseOut(d, i) {
@@ -126,16 +155,6 @@ function createGraph(name, userData, variables) {
           r: 3
         });
     }
-
-    //data line variables
-    var lineGen = d3.svg.line()
-          .x(function(d) {
-            return xScale(d.x);
-          })
-          .y(function(d) {
-            return yScale(d['Diastolic Pressure']);
-          })
-          .interpolate("linear");
 
     //create x axis
     function make_x_axis() {

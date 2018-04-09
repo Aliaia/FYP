@@ -118,6 +118,14 @@ h1, h2{
     margin: 10px;
 }
 
+.plus{
+	width: 20px;
+    height: 20px;
+    left: 150px;
+    position: absolute;
+    margin: 10px;
+}
+
 .systolicAndDiastolic{
 	top: 50px;
 	position: absolute;
@@ -151,8 +159,58 @@ svg text {
 	text-anchor: start;
 }
 
-.showData {
+#showData {
 	width: 100px;
 	height: 100px;
 	color: grey;
+}
+
+#newGraphs{
+	top: 60px;
+	position: absolute;
+}
+
+.inputForm{
+	top: 45px;
+	position: absolute;
+}
+
+
+.inputLabel {
+	width: 200px;
+}
+
+.formInput{
+	width: 170px;
+	left: 200px;
+	position: absolute;
+	text-align: right;
+}
+
+.formUnit{
+	right: 0px;
+	position: absolute;
+
+}
+
+.submitButton {
+	width: 197px;
+    margin: 10px 0px 10px 10px;
+}
+
+.formElement{
+	margin: 10px;
+	width: 400px;
+}
+
+#formAttributes{
+	list-style-type: none;
+	padding-left: 0px; 
+}
+
+.newForm{
+	left: 40px;
+	position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

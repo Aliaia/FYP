@@ -4,7 +4,7 @@ function dataFormatting(variables, dataset){
 
         for (var i = 0; i < dataset.length; i++) {
             requiredData[i] = {};
-            requiredData[i]["x"] = new Date(dataset[i].DateTime);
+            requiredData[i]["Date"] = new Date(dataset[i].DateTime);
             for (var j = 0; j < variables.length; j++) {
                 requiredData[i][variables[j]] = dataset[i][variables[j]].Measure;
             };
@@ -23,7 +23,7 @@ function getRange(dataset){
         for(attribute in dataset[i]){
             tmp = dataset[i][attribute];
             if (tmp < min) min = tmp;
-            if (tmp > max && attribute != 'x') max = tmp;
+            if (tmp > max && attribute != 'Date') max = tmp;
         }
     }
 
@@ -38,7 +38,7 @@ function getRange(dataset){
 function sortByDate(dataset){
 
     dataset.sort(function(a, b){
-      return a.x > b.x;
+      return a.Date > b.Date;
     });
 
     return dataset;

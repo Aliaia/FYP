@@ -61,19 +61,21 @@
         <div class="title"> User Graphs </div>
         <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
 
-        <div class="systolicAndDiastolic" id="newGraphs">
-            <!-- <svg id="systolicAndDiastolic" width = "500" height = "300"> -->
+        <div id="newGraphs">
                 <script type="text/javascript" >
 
-                    var userData = <?php print_r(json_encode(getConditionData('5abcf1fb331aaf3b548aee46')->toArray())); ?> 
+                    var userData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?> 
 
-                    createGraph('Diastolic and Systolic', userData, ['Systolic Pressure', 'Diastolic Pressure', 'Pulse']);
-                    // addLine('Diastolic and Systolic', userData, 'Systolic Pressure');
+                    var graphs = <?php print_r(json_encode(getData("Users", ['_id' => new MongoDB\BSON\ObjectId($_SESSION['login_user']['ID'])])->toArray())) ?>;
 
-                    // createGraph('Pulse', userData, 'Systolic Pressure');
+                    var graphs = graphs[0]['SpecifiedGraphs'];
+
+                    for (key in graphs){
+                        
+                        createGraph(key, userData, graphs[key]);
+                    }
 
                 </script>
-            <!-- </<svg> -->
         </div>
     </div>
 
