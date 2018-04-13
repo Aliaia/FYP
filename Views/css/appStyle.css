@@ -159,14 +159,14 @@ svg text {
 	text-anchor: start;
 }
 
-#showData {
+.showData {
 	width: 100px;
 	height: 100px;
 	color: grey;
 }
 
 #newGraphs{
-	top: 60px;
+	top: 40px;
 	position: absolute;
 }
 
@@ -213,4 +213,55 @@ svg text {
 	position: relative;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+#attributes{
+	position: absolute;
+    top: 40px;
+    left: 629px;
+    list-style-type: none;
+}
+
+.addAttribute{
+	margin: 2px;
+    width: 200px;
+    padding: 9px;
+}
+
+.active{
+	background-color: #cceeff;
+}
+
+.graphTitle{
+	position: absolute;
+    left: 120px;
+    width: 400px;
+    top: 15px;
+}
+
+.graphNameLabel{
+    width: 100px;
+    position: absolute;
+    margin-left: 20px;
+    top: 15px;
+}
+
+.page{
+	position: absolute;
+    top: 50px;
+    margin: 10px;
+}
+
+.createButton {
+	width: 200px;
+}
+
+#error{
+	color: red;
+	top: -18px;
+	left: 20px;
+	width: 300px;
+	position: absolute;
+	padding: 0px;
+	margin: 0px;
 }

@@ -21,36 +21,6 @@
 
     }
 
-    function isItemInArray(array, item) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i][0] == item[0] && array[i][1] == item[1]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function getUniqueAttributes(data){
-        attributes = []
-        for (element in data) {
-            for (attribute in data[element]){         
-                if (attribute != "_id" && attribute != "Identification" && attribute != "DateTime" ) {
-                    var formAttribute = [attribute, data[element][attribute].Unit, typeof data[element][attribute].Measure]; 
-                    attributes.push(formAttribute);
-                };
-                
-            }
-        }
-        var filtered = [];
-        for(item in attributes){
-            if(isItemInArray(filtered, attributes[item]) == false){
-                filtered.push(attributes[item]);
-            }
-        }
-
-        return filtered;
-    }
-
     function AddFormAttributes(){
         
         var formList = document.getElementById("formAttributes")
@@ -139,7 +109,7 @@
         <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
         <input type="image" onclick="return AddFormAttributes()" class="plus" src="../../Static/images/plus-button.png" title="Add Measurement">
 
-        <form class="inputForm">
+        <form name="createData" class="inputForm" action="../../resources/createReading.php" method="post" onsubmit="return formatValues();">
             <ul id="formAttributes">
 
             </ul>

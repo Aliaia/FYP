@@ -6,18 +6,19 @@ function dataFormatting(variables, dataset){
             requiredData[i] = {};
             requiredData[i]["Date"] = new Date(dataset[i].DateTime);
             for (var j = 0; j < variables.length; j++) {
-                requiredData[i][variables[j]] = dataset[i][variables[j]].Measure;
+                if (dataset[i][variables[j]]) {
+                    requiredData[i][variables[j]] = dataset[i][variables[j]].Measure;
+                };
             };
         };
+    
     sortByDate(requiredData);
-
     return(requiredData);
 }
 
 function getRange(dataset){
     var min = Number.POSITIVE_INFINITY;
     var max = Number.NEGATIVE_INFINITY;
-    console.log(dataset);
 
     for(var i = 0; i < dataset.length; i++){
         for(attribute in dataset[i]){

@@ -60,6 +60,10 @@
     <div class="content">     
         <div class="title"> User Graphs </div>
         <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
+        
+        <a href="createGraph.php">
+            <img class="plus" src="../../Static/images/plus-button.png" title="Add New Graph">
+        </a>
 
         <div id="newGraphs">
                 <script type="text/javascript" >
@@ -72,7 +76,7 @@
 
                     for (key in graphs){
                         
-                        createGraph(key, userData, graphs[key]);
+                        createGraph(key, userData, graphs[key], true);
                     }
 
                 </script>

@@ -1,13 +1,13 @@
 function createNewField(data){
-	var name = data.MeasurementName.value;
-	var measureUnit = data.Unit.value;
+	var name = data['Measurement Name[Measure]'].value;
+	var measureUnit = data['Unit (optional)[Measure]'].value;
 	var type = data.MeasurementType.value;
 
-	if(name != ""){
+	if (name) {
 		var formList = document.getElementById("formAttributes")
 
 		createListElement(name, type, measureUnit, formList);
-	}
+	};
 	
     removeNewForm();
     removeGreyOut();
@@ -20,7 +20,7 @@ function discardNewField() {
 	removeNewForm();
     removeGreyOut();
 
-    return false;
+    return false
 
 }
 
@@ -37,9 +37,16 @@ function createListElement(name, type, measureUnit, element){
 
     var input = document.createElement('input');
         input.setAttribute('class', 'formInput');
-        input.setAttribute('name', name);
+        input.setAttribute('name', (name + '[Measure]'));
         input.setAttribute('title', name);
         input.setAttribute('type', type);
+
+    // var inputName = name.concat('[0]')
+
+    var inputHidden = document.createElement('input');
+    	inputHidden.setAttribute('type', 'hidden');
+    	inputHidden.setAttribute('value', measureUnit); 
+    	inputHidden.setAttribute('name', (name + '[Unit]'))
     
     var unit = document.createElement('text');
         unit.setAttribute('class', 'formUnit');
@@ -49,6 +56,7 @@ function createListElement(name, type, measureUnit, element){
     
     divContainer.appendChild(label);
     divContainer.appendChild(input);
+    divContainer.appendChild(inputHidden);
     divContainer.appendChild(unit)
     divContainer.appendChild(br);
 
@@ -101,5 +109,41 @@ function removeNewForm() {
 	var newForm = document.getElementsByClassName('newForm')
 	console.log(newForm);
 	newForm[0].remove();
-	// console.log(newForm);
+
 }
+
+function formatValues(){
+    //add form processing
+
+	return true;
+}
+
+function isItemInArray(array, item) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i][0] == item[0] && array[i][1] == item[1]) {
+            return true;
+        }
+    }
+    return false;
+};
+
+function getUniqueAttributes(data){
+        attributes = []
+        for (element in data) {
+            for (attribute in data[element]){         
+                if (attribute != "_id" && attribute != "Identification" && attribute != "DateTime" ) {
+                    var formAttribute = [attribute, data[element][attribute].Unit, typeof data[element][attribute].Measure]; 
+                    attributes.push(formAttribute);
+                };
+                
+            }
+        }
+        var filtered = [];
+        for(item in attributes){
+            if(isItemInArray(filtered, attributes[item]) == false){
+                filtered.push(attributes[item]);
+            }
+        }
+
+        return filtered;
+    }
