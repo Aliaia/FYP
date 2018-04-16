@@ -75,7 +75,6 @@
                     var graphs = graphs[0]['SpecifiedGraphs'];
 
                     for (key in graphs){
-                        
                         createGraph(key, userData, graphs[key], true);
                     }
 

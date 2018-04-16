@@ -12,6 +12,8 @@ function createGraph(name, userData, variables, addLabel) {
 
 	graphData = dataFormatting(variables, userData);
 
+    var graphID = variables[0]["$oid"];
+
     var lastDate = 0;
     for (element in variables) {
         var newDate = getLastValue(graphData, variables[element]);
@@ -37,14 +39,13 @@ function createGraph(name, userData, variables, addLabel) {
 
     var vis = d3.select("#newGraphs")
     		.append("svg")
-    		.attr("id", name.replace(/[^\w]|_/g, ''))
+    		.attr("id", ('A' + graphID))
             .attr("width", width)
             .attr("height", height)
 
     if (addLabel == true) {
-        var element = document.getElementById(name.replace(/[^\w]|_/g, ''));
-        console.log(element);
-        var showData = d3.select("#newGraphs").select('#' + name.replace(/[^\w]|_/g, '')).append("text")
+        var showData = d3.select("#newGraphs").select('#A' + graphID)
+            .append("text")
             .attr("class", "showData")
             .text("")
             .attr("transform", "translate(" + (margin.right - 60) + "," + (0)+")")
@@ -247,6 +248,17 @@ function createGraph(name, userData, variables, addLabel) {
             .attr("y", 0 + (margin.top / 2))
             .attr("text-anchor", "middle")   
             .text(name);
+
+    var editLink = vis.append('a')
+        .attr("transform", "translate(" + (margin.right - 130) + "," + (0)+")")
+        .attr("href", ('../App/createGraph.php?Graph=' + graphID) )
+        .attr("title", "Edit Graph");
+
+
+    editLink.append('image')
+        .attr('xlink:href', '../../Static/images/pencil-edit-button.png')
+        .attr('class', 'editButton');
+
     }
 
 }

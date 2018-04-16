@@ -5,12 +5,30 @@
     <?php 
         
         session_start();
+        include '../../resources/config.php';
         
         if (isset($_SESSION['login_user']) == false) {
             header("Location: ../Views/UserLogin.php");
         }
 
-        include '../../resources/config.php';
+        $activeElements = '';
+        echo ("<script> var GraphType = '';</script>");
+
+        if (isset($_GET['Graph'])) {
+            $UserData = getData('Users', ['_id' => new MongoDB\BSON\ObjectID($_SESSION['login_user']['ID'])])->toArray();
+            $UserData = json_decode(json_encode($UserData[0]),true);
+
+            $Graphs = $UserData['SpecifiedGraphs'];
+            foreach ($Graphs as $GraphName => $GraphElements) {
+                if ($GraphElements[0]['$oid'] == $_GET['Graph']) {
+                    echo ("<script> var GraphType = '" . $GraphName . "';</script>");
+                    $activeElements = $GraphElements;
+                    break;
+                }
+            }
+        }
+
+        
 
     ?>
     <script type="text/javascript">
@@ -34,7 +52,6 @@
         createGraph('Create New Graph', userData, activeElements, false);
 
         var hidden = document.getElementById('graphElements');
-        console.log(hidden);
         hidden.setAttribute('value', activeElements);
     };
 
@@ -97,8 +114,8 @@
             <form name="createForm" method="post" action="../../resources/newGraph.php" onsubmit="return formValidation()">
                 <label class="graphNameLabel"><b>Graph Name: </b></label>
                 <input type="text" name="graphName" class="graphTitle">
-            
-                <input type="hidden" name="activeElements" id="graphElements" value="['Diastolic_Pressure', 'Systolic_Pressure']" >
+                <input type="hidden" id="graphID" name="graphID" value="">
+                <input type="hidden" name="activeElements" id="graphElements" value="Diastolic_Pressure,Systolic_Pressure" >
                 <ul id="attributes">
                     <li><p><b>Graph Elements</b></p></li>
                     
@@ -108,9 +125,25 @@
             <div id="newGraphs">
                 <script type="text/javascript">
 
-                    var activeElements = ['Diastolic_Pressure', 'Systolic_Pressure']
+                    if (GraphType == '') {
 
-                    var FormData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?>;
+                        var activeElements = ['Diastolic_Pressure', 'Systolic_Pressure'];
+
+                    } else {
+
+                        var activeElements = <?php print_r(json_encode($activeElements)) ?>;
+                        document.getElementsByClassName('graphTitle')[0].value = GraphType;
+
+                        var hiddenElement = document.getElementById("graphID");
+                        hiddenElement.setAttribute('value', activeElements[0]['$oid']);
+                        activeElements.splice(0, 1);
+                        
+                        var hidden = document.getElementById('graphElements');
+                        hidden.setAttribute('value', activeElements);
+                    
+                    };
+
+                    var FormData = <?php print_r(json_encode((getConditionData($_SESSION['login_user']['ID']))->toArray())); ?>;
 
                     var attributes = getUniqueAttributes(FormData);
 
@@ -136,13 +169,7 @@
 
                     var submitButton = document.createElement('li');
                     submitButton.setAttribute('class', 'addAttribute');
-                    // submitButton.setAttribute('id', 'createButton');
                     list.appendChild(submitButton);
-
-                    
-                    // hidden.setAttribute('type', 'hidden');
-                    // hidden.setAttribute('class', 'createButton');
-                    // submitButton.appendChild(hidden);
 
                     var button = document.createElement('input');
                     button.setAttribute('type', 'submit');
