@@ -42,7 +42,7 @@
     				unset($_SESSION['login_user']);
     			
     			} else if(isset($_SESSION['login_user'])) {
-    				header("Location: ../Views/App/graphs.html");
+    				header("Location: ../Views/App/graphs.php");
     			}
     		?>
     	}
@@ -63,7 +63,7 @@
 	  	<ul class="Nav-bar">
                 <li><a href="AboutUs.html">About us</a></li>
                 <li><a class="active" href="ContactUs.html">Contact us</a></li>
-                <li><a href="UserLogin.html">User Login</a></li>
+                <li><a href="UserLogin.php">User Login</a></li>
                 <li><a href="ProfessionalLogin.html">Clinician Login</a></li>
 	   	</ul>
 	</nav>
@@ -83,7 +83,8 @@
 			<input class="input" type="text" name="email"><br>
 			<input class="input" type="password" name="password"><br>
 			<input class="input" type="submit" name="userLogin" value="Login" >
-			<a href="CreateUser.html"> Create Account </a>
+			<a class="text" href="CreateUser.php"> Create Account </a>
+            <!-- <a class="text" href=""> Forgot Password </a> -->
 	</form>
 </div>
 </body>

@@ -45,44 +45,63 @@
 
     </div>
 
-    <nav class="navigation">
+    <div class="container2">
+        <nav class="navigation">
+                
+            <ul class="Nav-bar">
+                <li><a href="profile.php" id="userName"></a></li>
+                <li><a href="logAReading.php">Log a Reading</a></li>
+                <li><a class="active" href="graphs.php">Graphs</a></li>
+                <li><a href="personalData.php">Data</a></li>
+                <li><a href="settings.php">Settings</a></li>
+                <li><a href="../../resources/logout.php"> Log Out </a></li>
+            </ul>
+        </nav>
+
+        <div class="content">     
+            <div class="title"> User Graphs </div>
+            <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
             
-        <ul class="Nav-bar">
-            <li><a href="profile.php" id="userName"></a></li>
-            <li><a href="logAReading.php">Log a Reading</a></li>
-            <li><a class="active" href="graphs.php">Graphs</a></li>
-            <li><a href="personalData.php">Data</a></li>
-            <li><a href="settings.php">Settings</a></li>
-            <li><a href="../UserLogin.php"> Log Out </a></li>
-        </ul>
-    </nav>
+            <a href="createGraph.php">
+                <img class="plus" src="../../Static/images/plus-button.png" title="Add New Graph">
+            </a>
 
-    <div class="content">     
-        <div class="title"> User Graphs </div>
-        <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
-        
-        <a href="createGraph.php">
-            <img class="plus" src="../../Static/images/plus-button.png" title="Add New Graph">
-        </a>
+            <div id="newGraphs">
+                    <script type="text/javascript" >
 
-        <div id="newGraphs">
-                <script type="text/javascript" >
+                        var userData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?>;
 
-                    var userData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?> 
+                        var div = document.getElementById('newGraphs');
+                        var error = document.createElement('p');
+                        
+                        if (userData.length == 0) {
 
-                    var graphs = <?php print_r(json_encode(getData("Users", ['_id' => new MongoDB\BSON\ObjectId($_SESSION['login_user']['ID'])])->toArray())) ?>;
+                            error.innerHTML = 'You have not logged any data yet, please log a reading.';
+                            div.appendChild(error);
+                        
+                        } else {
+                            var graphs = <?php print_r(json_encode(getData("Users", ['_id' => new MongoDB\BSON\ObjectId($_SESSION['login_user']['ID'])])->toArray())) ?>;
 
-                    var graphs = graphs[0]['SpecifiedGraphs'];
+                            var graphs = graphs[0]['SpecifiedGraphs'];
 
-                    for (key in graphs){
-                        createGraph(key, userData, graphs[key], true);
-                    }
+                            console.log(graphs);
 
-                </script>
+                            if (Object.keys(graphs).length == 0) {
+                                error.innerHTML = 'Create a graph to view your logged data by clicking the plus button.';
+                                div.appendChild(error);
+                            };
+
+                            for (key in graphs){
+                                createGraph(key, userData, graphs[key], true);
+                            }
+                        };
+
+                    </script>
+            </div>
         </div>
+        <div class="footer"></div>
     </div>
 
           
-    <!-- <div class="footer"></div> -->
 </body>
 </html>

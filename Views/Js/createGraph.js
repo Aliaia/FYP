@@ -1,5 +1,9 @@
+//selection of colours for graph lines
 colorOrder = ['#009933', '#ff9933', '#ff0000', '#ff33cc', '#6600ff', '#cc66ff', '#00ff99', '#99ccff', '#ffff00', '#ff0066'];
 
+
+//gets the last value from the given data
+//append the lines label to the last know data point if not complete data
 function getLastValue(data, attribute){
     for (var i = data.length - 1; i >= 0; i--) {
         if(data[i][attribute]){
@@ -8,12 +12,19 @@ function getLastValue(data, attribute){
     };
 }
 
+//creates a customised d3 graph 
 function createGraph(name, userData, variables, addLabel) {
 
+    //get the correct variables from the data, and put in the correct format - d3Config.js
 	graphData = dataFormatting(variables, userData);
 
-    var graphID = variables[0]["$oid"];
+    //if graph has an ID, set it.
+    //if a graph is being edited rather than being created, the graphs ID will be included in the variables
+    if(typeof variables[0] !== 'undefined' && typeof variables[0]["$oid"] !== 'undefined') {
+        var graphID = variables[0]["$oid"];
+    }
 
+    //find the latest date of all active elements
     var lastDate = 0;
     for (element in variables) {
         var newDate = getLastValue(graphData, variables[element]);
@@ -22,12 +33,14 @@ function createGraph(name, userData, variables, addLabel) {
         }
     };
 
+    //set variables for x and y axis, and size of graph
  	var DateMinMax = [graphData[0].Date, graphData[lastDate].Date];
  	var DataMinMax = getRange(graphData);
 	var width = 1200;
     var height = 350;
     var margin = {top: 40, right: 720, bottom: 70, left: 50};
     
+    //if rollover points aren't required, the graph can be smaller
     if(addLabel == false){
         width = 650;
         margin.top = 20;
@@ -37,6 +50,7 @@ function createGraph(name, userData, variables, addLabel) {
     var innerwidth = width - margin.left - margin.right;
     var innerheight = height - margin.top - margin.bottom ;
 
+    //add backgrounds for graph and rollover points to the div.
     var vis = d3.select("#newGraphs")
     		.append("svg")
     		.attr("id", ('A' + graphID))
@@ -52,6 +66,8 @@ function createGraph(name, userData, variables, addLabel) {
 
         addText();
     };
+
+    //adds the rollover data points
     	
     function addText(){	
 
@@ -83,7 +99,11 @@ function createGraph(name, userData, variables, addLabel) {
     var xAxis = d3.svg.axis().scale(xScale).ticks(10);
       
     var yAxis = d3.svg.axis().scale(yScale).orient("left");
-    for(attribute in graphData[0]){
+    
+    //for each attribute, create a new line with circles and a label
+    for(attribute in variables){
+        
+        attribute = variables[attribute];
 
     	if(attribute != 'Date' ){
 
@@ -121,19 +141,24 @@ function createGraph(name, userData, variables, addLabel) {
 			    .on("mouseover", handleMouseOver)
            		.on("mouseout", handleMouseOut);
 
+            console.log(yScale(graphData[getLastValue(graphData, attribute)][attribute]));
+
 			vis.append("text")
 				.attr("class", "legendText")
-				.attr("transform", "translate(" + (width - margin.right + 9) + "," + yScale(graphData[getLastValue(graphData, attribute)][attribute] - 9) + ")")
+				.attr("transform", "translate(" + (width - margin.right + 9) + "," + (yScale(graphData[getLastValue(graphData, attribute)][attribute]) + 9) +")")
 				.attr("dy", ".35em")
 				.attr("text-anchor", "start")
 				.style("fill", colorOrder[0])
 				.text(attribute);
 
+            //once a colour is used from the list, add it to the end of the array again
 			var old = colorOrder.splice(0, 1);	
             colorOrder.push(old);	
 
     	}
     }
+
+    //rollovers for data points
 
     function handleMouseOver(d, i) {
         if (addLabel == true){
@@ -249,6 +274,7 @@ function createGraph(name, userData, variables, addLabel) {
             .attr("text-anchor", "middle")   
             .text(name);
 
+    //add the link to edit the graph
     var editLink = vis.append('a')
         .attr("transform", "translate(" + (margin.right - 130) + "," + (0)+")")
         .attr("href", ('../App/createGraph.php?Graph=' + graphID) )

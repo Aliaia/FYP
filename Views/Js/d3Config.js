@@ -1,3 +1,5 @@
+//puts data into the correct layout for the create graph function.
+//sorts the data into time for when setting time is implemented in log a reading.
 function dataFormatting(variables, dataset){
 	
 	requiredData = [];
@@ -16,6 +18,9 @@ function dataFormatting(variables, dataset){
     return(requiredData);
 }
 
+
+//finds minimum and maximum values of variable for y axis.
+//add a 10 point margin to maximum and minimum
 function getRange(dataset){
     var min = Number.POSITIVE_INFINITY;
     var max = Number.NEGATIVE_INFINITY;
@@ -36,6 +41,7 @@ function getRange(dataset){
     return([min, max + 10]);
 }
 
+//sorts the data given by date 
 function sortByDate(dataset){
 
     dataset.sort(function(a, b){

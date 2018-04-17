@@ -11,18 +11,23 @@ src: url("Cantarell/Cantarell-Regular.ttf");
 body{
 	font-family: "Cantarell";
 	font-size: 15px;
+	margin: 0px;
 }
 
 .container{
 	padding-top: 20px;
-    background-color: #778899;
+    background-color: #6e8091;
     left: 0px;
     top: 0px;
-    position: absolute;
+    position: relative;
     right: 0px;
     padding-bottom: 10px;
     height: 120px;
-    max-width: 100%;
+    width: calc(100% + 8px);
+}
+
+.container2{
+	position: relative;
 }
 
 h1{
@@ -42,10 +47,12 @@ h1, h2{
 .Nav-bar{
 	list-style: none;
 	height: 100%;
-	margin-top: 140px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	top: 0px;
 	position: absolute;
 	padding-left: 10px;
-	background-color:#778899;
+	background-color:#a8b3bd;
 	left: 0px;
 	width: 170px;
 }
@@ -86,11 +93,11 @@ h1, h2{
 
 .footer {
 	height: 50px;
-	position: absolute;
+	position: relative;
 	width: 100%;
 	bottom: 0px;
 	background-color: #778899;
-	left: 180px;
+	margin-top: 50px;
 }
 
 #userName{
@@ -98,9 +105,11 @@ h1, h2{
 }
 
 .content{
-	top: 150px;
-    position: absolute;
-    left: 200px;
+	top: 0px;
+	padding-top: 10px;
+	padding-left: 10px;
+    position: relative;
+    left: 180px;
 }
 
 .title {
@@ -168,7 +177,10 @@ svg text {
 
 #newGraphs{
 	top: 40px;
-	position: absolute;
+	width: 0px;
+	position: relative;
+	min-height: calc(100vh - 289px);
+	margin: 10px;
 }
 
 .inputForm{
@@ -229,7 +241,7 @@ svg text {
     padding: 9px;
 }
 
-.active{
+.addAttribute.active{
 	background-color: #cceeff;
 }
 
@@ -248,9 +260,10 @@ svg text {
 }
 
 .page{
-	position: absolute;
+	position: relative;
     top: 50px;
     margin: 10px;
+    min-height: calc(100vh - 289px);
 }
 
 .createButton {
@@ -271,4 +284,11 @@ svg text {
 	position: absolute;
 	padding: 0px;
 	margin: 0px;
+}
+
+.inputForm {
+	height: 100%;
+	position: relative;
+	min-height: calc(100vh - 294px);
+	margin: 10px;
 }

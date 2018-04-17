@@ -12,6 +12,12 @@ function createNewField(data){
     removeNewForm();
     removeGreyOut();
 
+    var errorElement = document.getElementById('noData')
+
+    if(errorElement) {
+        errorElement.remove();
+    }
+
 	return false;
 }
 

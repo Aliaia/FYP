@@ -31,10 +31,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	} else {
 		//Write data to Users Database
 		$userdoc = [
-		'_id' => $_id, 
-		'Name' => ['Text' => $nameText, 'Family' => $lastName, 'Given' => $givenName],
-		'Gender' => $gender,
-		'Birthdate' => $birthday
+			'_id' => $_id, 
+			'Name' => ['Text' => $nameText, 'Family' => $lastName, 'Given' => $givenName],
+			'Gender' => $gender,
+			'Birthdate' => $birthday,
+			'SpecifiedGraphs' => [
+				'Diastolic and Systolic Pressure Over Time' => [
+					'Diastolic_Pressure',
+					'Systolic_Pressure'
+				], 
+				'Pulse Over Time' => [
+					'Pulse'
+				]
+			]
 		];
 
 		writedata('Users', $userdoc);
@@ -48,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		];
 
 		writedata('Authentication', $authenticationDoc);
+		header("Location: ../Views/UserLogin.php");
 	};
 
 };

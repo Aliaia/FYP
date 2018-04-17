@@ -33,23 +33,27 @@
 
     </div>
 
-    <nav class="navigation">
-    	  	
-      	<ul class="Nav-bar">
-            <li><a class="active" href="profile.php" id="userName"></a></li>
-            <li><a href="logAReading.php">Log a Reading</a></li>
-            <li><a href="graphs.php">Graphs</a></li>
-            <li><a href="personalData.php">Data</a></li>
-            <li><a href="settings.php">Settings</a></li>
-            <li><a href="../UserLogin.php"> Log Out </a></li>
-        </ul>
-    </nav>
+    <div class="container2">
 
-    <div class="content">     
-        <div class="title"> Profile </div>
-        <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
+        <nav class="navigation">
+        	  	
+          	<ul class="Nav-bar">
+                <li><a class="active" href="profile.php" id="userName"></a></li>
+                <li><a href="logAReading.php">Log a Reading</a></li>
+                <li><a href="graphs.php">Graphs</a></li>
+                <li><a href="personalData.php">Data</a></li>
+                <li><a href="settings.php">Settings</a></li>
+                <li><a href="../../resources/logout.php"> Log Out </a></li>
+            </ul>
+        </nav>
+
+        <div class="content">     
+            <div class="title"> Profile </div>
+            <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
+        </div>
+        <div class="page"></div>
+        	  
+        <div class="footer"></div>
     </div>
-    	  
-    <div class="footer"></div>
 </body>
 </html>

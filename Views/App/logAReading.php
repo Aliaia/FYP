@@ -92,51 +92,65 @@
 
     </div>
 
-    <nav class="navigation">
-    	  	
-      	<ul class="Nav-bar">
-            <li><a href="profile.php" id="userName"></a></li>
-            <li><a class="active" href="logAReading.php">Log a Reading</a></li>
-            <li><a href="graphs.php">Graphs</a></li>
-            <li><a href="personalData.php">Data</a></li>
-            <li><a href="settings.php">Settings</a></li>
-            <li><a href="../UserLogin.php"> Log Out </a></li>
-        </ul>
-    </nav>
-    
-    <div class="content">	  
-        <div class="title"> Log a Reading </div>
-        <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
-        <input type="image" onclick="return AddFormAttributes()" class="plus" src="../../Static/images/plus-button.png" title="Add Measurement">
+    <div class="container2">
 
-        <form name="createData" class="inputForm" action="../../resources/createReading.php" method="post" onsubmit="return formatValues();">
-            <ul id="formAttributes">
-
+        <nav class="navigation">
+        	  	
+          	<ul class="Nav-bar">
+                <li><a href="profile.php" id="userName"></a></li>
+                <li><a class="active" href="logAReading.php">Log a Reading</a></li>
+                <li><a href="graphs.php">Graphs</a></li>
+                <li><a href="personalData.php">Data</a></li>
+                <li><a href="settings.php">Settings</a></li>
+                <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>
-            <input type="Submit" class="submitButton" value="Submit Reading">
-            <input type="Submit" class="submitButton" value="Discard Reading">
-
-        </form>
-
-        <script type="text/javascript">
-
-            var FormData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?>;
-            
-            FormData = getUniqueAttributes(FormData);
-            var formDiv = document.querySelector( "form" );
-            var formList = document.getElementById("formAttributes")
-            console.log(formList);
-
-            for (attribute in FormData) {
-
-                createListElement(FormData[attribute][0], FormData[attribute][2], FormData[attribute][1], formList);
-
-            }
+        </nav>
         
-        </script>
+        <div class="content">	  
+            <div class="title"> Log a Reading </div>
+            <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
+            <input type="image" onclick="return AddFormAttributes()" class="plus" src="../../Static/images/plus-button.png" title="Add Measurement">
+
+            <form name="createData" class="inputForm" action="../../resources/createReading.php" method="post" onsubmit="return formatValues();">
+                <ul id="formAttributes">
+
+                </ul>
+                <input type="Submit" class="submitButton" value="Submit Reading">
+                <input type="Submit" class="submitButton" value="Discard Reading">
+
+            </form>
+
+            <script type="text/javascript">
+
+                var FormData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?>;
+                
+                FormData = getUniqueAttributes(FormData);
+                var formDiv = document.querySelector( "form" );
+                var formList = document.getElementById("formAttributes")
+
+                if (FormData.length == 0) {
+
+                    var error = document.createElement('p')
+                    error.setAttribute('id', 'noData')
+                    error.innerHTML = "You are currently not tracking anything, press the plus button above to start.";
+                            
+                    formList.appendChild(error);
+
+
+                } else {
+
+                    for (attribute in FormData) {
+
+                        createListElement(FormData[attribute][0], FormData[attribute][2], FormData[attribute][1], formList);
+
+                    }
+
+                }
+            
+            </script>
+        </div>
+
+        <div class="footer"></div>
     </div>
-
-
-    <div class="footer"></div>
 </body>
 </html>

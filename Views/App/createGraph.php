@@ -58,11 +58,9 @@
     function formValidation(){
         var graphTitle = document.forms['createForm']['graphName'].value;
         var activeElements = document.forms['createForm']['activeElements'].value;
-        console.log(activeElements);
         if (graphTitle == "" || activeElements == "") {
             var errorElement = document.getElementById('error');
             errorElement.innerHTML = "Please enter a Name or elements";
-            console.log(errorElement);
             return false;
         } else {
             return true;
@@ -93,101 +91,104 @@
 
     </div>
 
-    <nav class="navigation">
-    	  	
-      	<ul class="Nav-bar">
-            <li><a class="active" href="profile.php" id="userName"></a></li>
-            <li><a href="logAReading.php">Log a Reading</a></li>
-            <li><a href="graphs.php">Graphs</a></li>
-            <li><a href="personalData.php">Data</a></li>
-            <li><a href="settings.php">Settings</a></li>
-            <li><a href="../UserLogin.php"> Log Out </a></li>
-        </ul>
-    </nav>
+    <div class="container2">
 
-    <div class="content">     
-        <div class="title"> Create Graph </div>
-        <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
+        <nav class="navigation">
+        	  	
+          	<ul class="Nav-bar">
+                <li><a class="active" href="profile.php" id="userName"></a></li>
+                <li><a href="logAReading.php">Log a Reading</a></li>
+                <li><a href="graphs.php">Graphs</a></li>
+                <li><a href="personalData.php">Data</a></li>
+                <li><a href="settings.php">Settings</a></li>
+                <li><a href="../../resources/logout.php"> Log Out </a></li>
+            </ul>
+        </nav>
 
-        <div class="page">
-            <p id="error"></p> 
-            <form name="createForm" method="post" action="../../resources/newGraph.php" onsubmit="return formValidation()">
-                <label class="graphNameLabel"><b>Graph Name: </b></label>
-                <input type="text" name="graphName" class="graphTitle">
-                <input type="hidden" id="graphID" name="graphID" value="">
-                <input type="hidden" name="activeElements" id="graphElements" value="Diastolic_Pressure,Systolic_Pressure" >
-                <ul id="attributes">
-                    <li><p><b>Graph Elements</b></p></li>
-                    
-                </ul>
-            </form>
+        <div class="content">     
+            <div class="title"> Create Graph </div>
+            <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
 
-            <div id="newGraphs">
-                <script type="text/javascript">
-
-                    if (GraphType == '') {
-
-                        var activeElements = ['Diastolic_Pressure', 'Systolic_Pressure'];
-
-                    } else {
-
-                        var activeElements = <?php print_r(json_encode($activeElements)) ?>;
-                        document.getElementsByClassName('graphTitle')[0].value = GraphType;
-
-                        var hiddenElement = document.getElementById("graphID");
-                        hiddenElement.setAttribute('value', activeElements[0]['$oid']);
-                        activeElements.splice(0, 1);
+            <div class="page">
+                <p id="error"></p> 
+                <form name="createForm" method="post" action="../../resources/newGraph.php" onsubmit="return formValidation()">
+                    <label class="graphNameLabel"><b>Graph Name: </b></label>
+                    <input type="text" name="graphName" class="graphTitle">
+                    <input type="hidden" id="graphID" name="graphID" value="">
+                    <input type="hidden" name="activeElements" id="graphElements" value="" >
+                    <ul id="attributes">
+                        <li><p><b>Graph Elements</b></p></li>
                         
-                        var hidden = document.getElementById('graphElements');
-                        hidden.setAttribute('value', activeElements);
-                    
-                    };
+                    </ul>
+                </form>
 
-                    var FormData = <?php print_r(json_encode((getConditionData($_SESSION['login_user']['ID']))->toArray())); ?>;
+                <div id="newGraphs">
+                    <script type="text/javascript">
 
-                    var attributes = getUniqueAttributes(FormData);
+                        var FormData = <?php print_r(json_encode((getConditionData($_SESSION['login_user']['ID']))->toArray())); ?>;
 
-                    var list = document.getElementById("attributes");
+                        var attributes = getUniqueAttributes(FormData);
 
-                    for (attribute in attributes) {
-                        var attributeElement = document.createElement('li');
-                        attributeElement.setAttribute('class', 'addAttribute');
-                        attributeElement.setAttribute('id', attributes[attribute][0]);
-                        list.appendChild(attributeElement);
+                        var list = document.getElementById("attributes");
+
+                        if (GraphType == ''){
+                            // console.log(attributes[0][0]);
+                            var activeElements = [attributes[0][0]];
+
+                        } else {
+
+                            var activeElements = <?php print_r(json_encode($activeElements)) ?>;
+                            document.getElementsByClassName('graphTitle')[0].value = GraphType;
+
+                            var hiddenElement = document.getElementById("graphID");
+                            hiddenElement.setAttribute('value', activeElements[0]['$oid']);
+                            activeElements.splice(0, 1);
                         
-                        var text = document.createElement('a')
-                        text.textContent = attributes[attribute][0];
-                        text.setAttribute('onclick', ('changeGraphElements("' + attributes[attribute][0] + '") '));
-
-                        if (activeElements.includes(attributes[attribute][0])){
-                            attributeElement.setAttribute('class', 'addAttribute active')
                         };
 
-                        attributeElement.appendChild(text);
+                        var hidden = document.getElementById('graphElements');
+                        hidden.setAttribute('value', activeElements);
 
-                    }
+                        for (attribute in attributes) {
+                            var attributeElement = document.createElement('li');
+                            attributeElement.setAttribute('class', 'addAttribute');
+                            attributeElement.setAttribute('id', attributes[attribute][0]);
+                            list.appendChild(attributeElement);
+                            
+                            var text = document.createElement('a')
+                            text.textContent = attributes[attribute][0];
+                            text.setAttribute('onclick', ('changeGraphElements("' + attributes[attribute][0] + '") '));
 
-                    var submitButton = document.createElement('li');
-                    submitButton.setAttribute('class', 'addAttribute');
-                    list.appendChild(submitButton);
+                            if (activeElements.includes(attributes[attribute][0])){
+                                attributeElement.setAttribute('class', 'addAttribute active')
+                            };
 
-                    var button = document.createElement('input');
-                    button.setAttribute('type', 'submit');
-                    button.setAttribute('class', 'createButton');
-                    button.setAttribute('value', 'Create Graph');
-                    submitButton.appendChild(button);
+                            attributeElement.appendChild(text);
 
-                    var userData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?> 
+                        }
 
-                    createGraph('Create New Graph', userData, activeElements, false);
-                
-                </script>
+                        var submitButton = document.createElement('li');
+                        submitButton.setAttribute('class', 'addAttribute');
+                        list.appendChild(submitButton);
+
+                        var button = document.createElement('input');
+                        button.setAttribute('type', 'submit');
+                        button.setAttribute('class', 'createButton');
+                        button.setAttribute('value', 'Create Graph');
+                        submitButton.appendChild(button);
+
+                        var userData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?> 
+
+                        createGraph('Create New Graph', userData, activeElements, false);
+                    
+                    </script>
 
 
+                </div>
             </div>
-        </div>
-    </div> 
-    	  
-    <div class="footer"></div>
+        </div> 
+        	  
+        <div class="footer"></div>
+    </div>
 </body>
 </html>

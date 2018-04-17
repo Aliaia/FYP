@@ -88,7 +88,7 @@
 		  	<ul class="Nav-bar">
 		   		<li><a  href="AboutUs.html">About us</a></li>
 		   		<li><a href="ContactUs.html">Contact us</a></li>
-		   		<li><a href="UserLogin.html">User Login</a></li>
+		   		<li><a href="UserLogin.php">User Login</a></li>
 		   		<li><a href="ProfessionalLogin.html">Clinician Login</a></li>
 		   	</ul>
 		</nav>
