@@ -1,7 +1,8 @@
 <?php
-
+// Connects to the MongoDB database with password and username
 $connect = new MongoDB\Driver\Manager('mongodb+srv://Test1:Test1@test-mn8az.mongodb.net');
 
+//gets the data held in the specified collection with the query
 function getData($database, $query) {
 	global $connect;
 
@@ -13,6 +14,8 @@ function getData($database, $query) {
 	return $cursor;
 }
 
+
+// Gets the data from the conditions database, with the specified ID
 function getConditionData($ID) {
 	global $connect;
 
@@ -21,6 +24,7 @@ function getConditionData($ID) {
 	return $cursor;
 }
 
+// Creates a new document in the collection specified
 function writeData($database, $data){
 	global $connect;
 

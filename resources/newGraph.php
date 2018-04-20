@@ -1,18 +1,25 @@
 <?php
-
 session_start();
 
 include 'config.php';
 
+//either updates the graph or creates a new one
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-	//New graph Elements
+	//Creates new graph elements
 	$graphElements = [];
+
 	$graphElements[0] = new MongoDB\BSON\ObjectID();
+
+	//if a graphId is sent, use it, else use a new Id
 	if ($_POST['graphID']) {
 		$graphElements[0] = new MongoDB\BSON\ObjectID($_POST['graphID']);
 	};
+
+	//elements are sent as a string, turn into an array
 	$newElements = explode(',', $_POST['activeElements']);
+
+	//add elements to the end of the array
 	$graphElements = array_merge($graphElements, $newElements);
 
 	//Gets the old data of the graph, updates with a new graph
@@ -35,12 +42,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	}
 
+	//problem with JSON_decode changing variable names - format variable names
 	foreach ($GraphData['SpecifiedGraphs'] as $GraphName => $elements) {
 		if (gettype($elements[0]) == 'array') {
 			$GraphData['SpecifiedGraphs'][$GraphName][0] = new MongoDB\BSON\ObjectID($elements[0]['$oid']);
 		 }
 	}
 
+	//write to database, if it's a new graph it'll create a new object, else it'll update the one with the same objectID
 	$updateElement = new MongoDB\Driver\BulkWrite;
 	$updateElement->update(
 
@@ -50,6 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	);
 
 	$connect->executeBulkWrite('FYP.Users', $updateElement);
+
+	//redirect to graphs page, to view new graph
 	header("Location: ../Views/App/graphs.php");
 
 }

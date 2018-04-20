@@ -52,8 +52,8 @@
                 <li><a href="profile.php" id="userName"></a></li>
                 <li><a href="logAReading.php">Log a Reading</a></li>
                 <li><a class="active" href="graphs.php">Graphs</a></li>
-                <li><a href="personalData.php">Data</a></li>
-                <li><a href="settings.php">Settings</a></li>
+                <!-- <li><a href="personalData.php">Data</a></li> -->
+                <!-- <li><a href="settings.php">Settings</a></li> -->
                 <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>
         </nav>
@@ -73,27 +73,32 @@
 
                         var div = document.getElementById('newGraphs');
                         var error = document.createElement('p');
+                        console.log(userData);
                         
                         if (userData.length == 0) {
 
                             error.innerHTML = 'You have not logged any data yet, please log a reading.';
                             div.appendChild(error);
+
+                            var plus = document.getElementsByClassName('plus')[0];
+
                         
                         } else {
                             var graphs = <?php print_r(json_encode(getData("Users", ['_id' => new MongoDB\BSON\ObjectId($_SESSION['login_user']['ID'])])->toArray())) ?>;
 
                             var graphs = graphs[0]['SpecifiedGraphs'];
 
-                            console.log(graphs);
-
                             if (Object.keys(graphs).length == 0) {
                                 error.innerHTML = 'Create a graph to view your logged data by clicking the plus button.';
                                 div.appendChild(error);
+                            } else {
+
+                                //for each saved graph in a users document, create the graph.
+                                for (key in graphs){
+                                    createGraph(key, userData, graphs[key], true);
+                                }
                             };
 
-                            for (key in graphs){
-                                createGraph(key, userData, graphs[key], true);
-                            }
                         };
 
                     </script>

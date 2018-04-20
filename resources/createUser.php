@@ -4,8 +4,7 @@ session_start();
 
 include 'config.php';
 
-
-
+//Takes all the data within the create a user form, puts in the correct FHIR format, and writes it as a new document.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$_id = new MongoDB\BSON\ObjectID;
@@ -35,16 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			'Name' => ['Text' => $nameText, 'Family' => $lastName, 'Given' => $givenName],
 			'Gender' => $gender,
 			'Birthdate' => $birthday,
-			'SpecifiedGraphs' => [
-				'Diastolic and Systolic Pressure Over Time' => [
-					'Diastolic_Pressure',
-					'Systolic_Pressure'
-				], 
-				'Pulse Over Time' => [
-					'Pulse'
-				]
-			]
-		];
+			'SpecifiedGraphs' => []
+			];
 
 		writedata('Users', $userdoc);
 

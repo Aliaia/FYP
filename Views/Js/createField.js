@@ -1,3 +1,5 @@
+
+//Creates a new field, adding to the list when a new field has been submitted
 function createNewField(data){
 	var name = data['Measurement Name[Measure]'].value;
 	var measureUnit = data['Unit (optional)[Measure]'].value;
@@ -21,6 +23,7 @@ function createNewField(data){
 	return false;
 }
 
+//If the user selects discard instead of save when creating a new field
 function discardNewField() {
 
 	removeNewForm();
@@ -30,25 +33,37 @@ function discardNewField() {
 
 }
 
+//Creates a new li element in the list  of form elements
 function createListElement(name, type, measureUnit, element){
 
+    //create initial li element
 	var divContainer = document.createElement('li');
         divContainer.setAttribute('class', 'formElement');
                 
     element.appendChild(divContainer);
 
+    //add label and input element
 	var label = document.createElement('label');
         label.setAttribute('class', 'inputLabel');
         label.textContent = name;
 
-    var input = document.createElement('input');
+    if (type !== 'text') {
+        var input = document.createElement('input');
         input.setAttribute('class', 'formInput');
         input.setAttribute('name', (name + '[Measure]'));
         input.setAttribute('title', name);
         input.setAttribute('type', type);
+    } else {
+        var input = document.createElement('textarea');
+        input.setAttribute('class', 'formInput');
+        input.setAttribute('form', 'newForm');
+        input.setAttribute('name', (name + '[Measure]'));
+        input.setAttribute('title', name);
 
-    // var inputName = name.concat('[0]')
+    }
+        ;
 
+    //create the hidden element which submits the unit
     var inputHidden = document.createElement('input');
     	inputHidden.setAttribute('type', 'hidden');
     	inputHidden.setAttribute('value', measureUnit); 
@@ -68,6 +83,7 @@ function createListElement(name, type, measureUnit, element){
 
 }
 
+//greys out the list elements, and submit buttons
 function greyout(){
 
 	var listElements = document.getElementsByClassName('formElement')
@@ -89,6 +105,8 @@ function greyout(){
         }
 }
 
+
+//removes the grey out on list elements and sbmit buttons
 function removeGreyOut(){
 
 	var listElements = document.getElementsByClassName('formElement')
@@ -110,7 +128,7 @@ function removeGreyOut(){
         }
 }
 
-
+//removes the 'create new field' form on submission 
 function removeNewForm() {
 	var newForm = document.getElementsByClassName('newForm')
 	console.log(newForm);
@@ -119,11 +137,12 @@ function removeNewForm() {
 }
 
 function formatValues(){
-    //add form processing
+    //TODO: add form processing
 
 	return true;
 }
 
+//checks to see if the item is in the 2D array
 function isItemInArray(array, item) {
     for (var i = 0; i < array.length; i++) {
         if (array[i][0] == item[0] && array[i][1] == item[1]) {
@@ -133,6 +152,7 @@ function isItemInArray(array, item) {
     return false;
 };
 
+//runs through all the data, and finds all the unique attributes not including Dates, and user identifications.
 function getUniqueAttributes(data){
         attributes = []
         for (element in data) {

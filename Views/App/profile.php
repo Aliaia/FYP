@@ -5,10 +5,11 @@
     <?php 
         
         session_start();
+        include '../../resources/config.php';
         
         if (isset($_SESSION['login_user']) == false) {
             header("Location: ../Views/UserLogin.php");
-        }
+        };
 
     ?>
     <script type="text/javascript">
@@ -41,8 +42,8 @@
                 <li><a class="active" href="profile.php" id="userName"></a></li>
                 <li><a href="logAReading.php">Log a Reading</a></li>
                 <li><a href="graphs.php">Graphs</a></li>
-                <li><a href="personalData.php">Data</a></li>
-                <li><a href="settings.php">Settings</a></li>
+                <!-- <li><a href="personalData.php">Data</a></li> -->
+                <!-- <li><a href="settings.php">Settings</a></li> -->
                 <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>
         </nav>
@@ -51,7 +52,39 @@
             <div class="title"> Profile </div>
             <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
         </div>
-        <div class="page"></div>
+        <div class="page">
+               <ul class="profileElements">
+                    
+                </ul>
+
+        </div>
+        
+        <script type="text/javascript">
+            var FormData = <?php print_r(json_encode(getData('Users', ['_id' => new MongoDB\BSON\ObjectID($_SESSION['login_user']['ID'])])->toArray())); ?>[0];
+            
+            var profileElements = document.getElementsByClassName('profileElements')[0];
+            console.log(FormData)
+            FormData['Name'] = FormData['Name']['Text'];
+            console.log(profileElements);
+
+            for (element in FormData) {
+                if (element != '_id' && element != 'SpecifiedGraphs') {
+                    var newElement = document.createElement('li');
+                    profileElements.appendChild(newElement);
+
+                    var title = document.createElement('h4');
+                    title.innerHTML = element;
+
+                    var value = document.createElement('p')
+                    value.innerHTML = FormData[element];
+
+                    newElement.appendChild(title);
+                    newElement.appendChild(value);
+                };
+             }; 
+
+            console.log(FormData[0]);
+        </script>
         	  
         <div class="footer"></div>
     </div>

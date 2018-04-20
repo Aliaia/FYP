@@ -19,9 +19,10 @@ function createGraph(name, userData, variables, addLabel) {
 	graphData = dataFormatting(variables, userData);
 
     //if graph has an ID, set it.
-    //if a graph is being edited rather than being created, the graphs ID will be included in the variables
+    //id is used to label the div
     if(typeof variables[0] !== 'undefined' && typeof variables[0]["$oid"] !== 'undefined') {
         var graphID = variables[0]["$oid"];
+        variables.splice(0, 1);
     }
 
     //find the latest date of all active elements
@@ -99,13 +100,11 @@ function createGraph(name, userData, variables, addLabel) {
     var xAxis = d3.svg.axis().scale(xScale).ticks(10);
       
     var yAxis = d3.svg.axis().scale(yScale).orient("left");
-    
     //for each attribute, create a new line with circles and a label
     for(attribute in variables){
-        
         attribute = variables[attribute];
 
-    	if(attribute != 'Date' ){
+    	if(attribute != 'Date' && attribute != '$oid' ){
 
 	    	var lineGen = d3.svg.line()
 	            .y(function(d) { return yScale(d[attribute]); })
@@ -141,11 +140,9 @@ function createGraph(name, userData, variables, addLabel) {
 			    .on("mouseover", handleMouseOver)
            		.on("mouseout", handleMouseOut);
 
-            console.log(yScale(graphData[getLastValue(graphData, attribute)][attribute]));
-
 			vis.append("text")
 				.attr("class", "legendText")
-				.attr("transform", "translate(" + (width - margin.right + 9) + "," + (yScale(graphData[getLastValue(graphData, attribute)][attribute]) + 9) +")")
+				.attr("transform", "translate(" + (width - margin.right + 9) + "," + (yScale(graphData[getLastValue(graphData, attribute)][attribute]) + margin.top) +")")
 				.attr("dy", ".35em")
 				.attr("text-anchor", "start")
 				.style("fill", colorOrder[0])

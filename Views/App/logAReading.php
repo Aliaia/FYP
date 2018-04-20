@@ -30,6 +30,7 @@
 
         var newForm = document.createElement("form")
             newForm.setAttribute("class", "newForm");
+            newForm.setAttribute("id", "newForm");
             formList.appendChild(newForm);
 
         createListElement('Measurement Name', 'text', '', newForm);
@@ -65,7 +66,7 @@
             Typeinput.setAttribute('class', 'formInput');
             Typeinput.setAttribute('name', 'MeasurementType');
             Typeinput.setAttribute('title', 'Measurement Type');
-            Typeinput.innerHTML = "<option> Text </option><option> Number </option><option> Sliding Bar </option>"
+            Typeinput.innerHTML = "<option> Text </option><option> Number </option>"
 
 
         //Add all to list elements
@@ -100,8 +101,8 @@
                 <li><a href="profile.php" id="userName"></a></li>
                 <li><a class="active" href="logAReading.php">Log a Reading</a></li>
                 <li><a href="graphs.php">Graphs</a></li>
-                <li><a href="personalData.php">Data</a></li>
-                <li><a href="settings.php">Settings</a></li>
+                <!-- <li><a href="personalData.php">Data</a></li> -->
+                <!-- <li><a href="settings.php">Settings</a></li> -->
                 <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>
         </nav>

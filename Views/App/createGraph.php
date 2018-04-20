@@ -99,8 +99,8 @@
                 <li><a class="active" href="profile.php" id="userName"></a></li>
                 <li><a href="logAReading.php">Log a Reading</a></li>
                 <li><a href="graphs.php">Graphs</a></li>
-                <li><a href="personalData.php">Data</a></li>
-                <li><a href="settings.php">Settings</a></li>
+                <!-- <li><a href="personalData.php">Data</a></li> -->
+                <!-- <li><a href="settings.php">Settings</a></li> -->
                 <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>
         </nav>
@@ -109,7 +109,7 @@
             <div class="title"> Create Graph </div>
             <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
 
-            <div class="page">
+            <div class="graphPage">
                 <p id="error"></p> 
                 <form name="createForm" method="post" action="../../resources/newGraph.php" onsubmit="return formValidation()">
                     <label class="graphNameLabel"><b>Graph Name: </b></label>

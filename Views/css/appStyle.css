@@ -177,7 +177,7 @@ svg text {
 
 #newGraphs{
 	top: 40px;
-	width: 0px;
+	width: 450px;
 	position: relative;
 	min-height: calc(100vh - 289px);
 	margin: 10px;
@@ -191,18 +191,21 @@ svg text {
 
 .inputLabel {
 	width: 200px;
+	position: relative;
+	float: left;
 }
 
 .formInput{
 	width: 170px;
-	left: 200px;
-	position: absolute;
+	height: 20px;
+	left: 30px;
+	position: relative;
 	text-align: right;
 }
 
 .formUnit{
-	right: 0px;
-	position: absolute;
+	position: relative;
+	float: right;
 
 }
 
@@ -213,7 +216,7 @@ svg text {
 
 .formElement{
 	margin: 10px;
-	width: 400px;
+	width: 460px;
 }
 
 #formAttributes{
@@ -259,11 +262,18 @@ svg text {
     top: 15px;
 }
 
+.graphPage{
+	position: relative;
+    top: 50px;
+    margin: 10px;
+    min-height: calc(100vh - 289px);
+}
 .page{
 	position: relative;
     top: 50px;
     margin: 10px;
     min-height: calc(100vh - 289px);
+    left: 170px;
 }
 
 .createButton {
@@ -291,4 +301,8 @@ svg text {
 	position: relative;
 	min-height: calc(100vh - 294px);
 	margin: 10px;
+}
+
+.profileElements {
+	list-style: none;
 }
