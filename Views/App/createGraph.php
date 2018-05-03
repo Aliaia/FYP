@@ -8,7 +8,7 @@
         include '../../resources/config.php';
         
         if (isset($_SESSION['login_user']) == false) {
-            header("Location: ../Views/UserLogin.php");
+            header("Location: ../UserLogin.php");
         }
 
         $activeElements = '';
@@ -99,7 +99,7 @@
                 <li><a class="active" href="profile.php" id="userName"></a></li>
                 <li><a href="logAReading.php">Log a Reading</a></li>
                 <li><a href="graphs.php">Graphs</a></li>
-                <!-- <li><a href="personalData.php">Data</a></li> -->
+                <li><a href="personalData.php">Data</a></li>
                 <!-- <li><a href="settings.php">Settings</a></li> -->
                 <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>
@@ -132,7 +132,6 @@
                         var list = document.getElementById("attributes");
 
                         if (GraphType == ''){
-                            // console.log(attributes[0][0]);
                             var activeElements = [attributes[0][0]];
 
                         } else {
@@ -150,20 +149,22 @@
                         hidden.setAttribute('value', activeElements);
 
                         for (attribute in attributes) {
-                            var attributeElement = document.createElement('li');
-                            attributeElement.setAttribute('class', 'addAttribute');
-                            attributeElement.setAttribute('id', attributes[attribute][0]);
-                            list.appendChild(attributeElement);
-                            
-                            var text = document.createElement('a')
-                            text.textContent = attributes[attribute][0];
-                            text.setAttribute('onclick', ('changeGraphElements("' + attributes[attribute][0] + '") '));
+                            if (attributes[attribute][2] == 'number') {
+                                var attributeElement = document.createElement('li');
+                                attributeElement.setAttribute('class', 'addAttribute');
+                                attributeElement.setAttribute('id', attributes[attribute][0]);
+                                list.appendChild(attributeElement);
+                                
+                                var text = document.createElement('a')
+                                text.textContent = attributes[attribute][0];
+                                text.setAttribute('onclick', ('changeGraphElements("' + attributes[attribute][0] + '") '));
 
-                            if (activeElements.includes(attributes[attribute][0])){
-                                attributeElement.setAttribute('class', 'addAttribute active')
-                            };
+                                if (activeElements.includes(attributes[attribute][0])){
+                                    attributeElement.setAttribute('class', 'addAttribute active')
+                                };
 
-                            attributeElement.appendChild(text);
+                                attributeElement.appendChild(text);
+                            }
 
                         }
 
@@ -176,6 +177,13 @@
                         button.setAttribute('class', 'createButton');
                         button.setAttribute('value', 'Create Graph');
                         submitButton.appendChild(button);
+
+                        var discardbutton = document.createElement('input');
+                        discardbutton.setAttribute('type', 'submit');
+                        discardbutton.setAttribute('class', 'createButton');
+                        discardbutton.setAttribute('value', 'Discard Graph');
+                        discardbutton.setAttribute('onclick', 'return discardGraph()')
+                        submitButton.appendChild(discardbutton);
 
                         var userData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?> 
 

@@ -20,9 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	//iterates over each attribte submitted and appends to the array. 
 	foreach ($_POST as $key => $value) {
-		if($value['Measure'] != ""){
-			$ConditionData[$key] = ['Measure' => intval($value['Measure']), 'Unit' => $value['Unit']];
-		};
+		//if it's a numeric value, insert as a number not a string.
+		if($value['Measure'] != "" && is_numeric($value['Measure'])){
+			$ConditionData[$key] = ['Measure' => intval($value['Measure']), 'Unit' => htmlspecialchars($value['Unit'])];
+		} elseif ($value['Measure'] != "") {
+			$ConditionData[$key] = ['Measure' => htmlspecialchars($value['Measure']), 'Unit' => htmlspecialchars($value['Unit'])];
+		}
 	};
 
 	//writes the data to the database

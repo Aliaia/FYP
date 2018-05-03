@@ -46,13 +46,16 @@
     		} else if (email != email2) {
     			document.getElementsByClassName("error")[0].innerHTML = "Emails do not match.";
     			return false;
-    		} else if (password != password2) {
+    		} else if (passwordRE.test(String(password)) == false){
+                document.getElementsByClassName("error")[0].innerHTML = "password must have 8 characters, at least 1 uppercase, and one number.";
+                return false;
+            } else if (password != password2) {
     			document.getElementsByClassName("error")[0].innerHTML = "Passwords do not match";
     			return false;
     		} else if (emailRE.test(String(email).toLowerCase()) == false || passwordRE.test(String(password)) == false) {
-    			document.getElementsByClassName("error")[0].innerHTML = "Please enter a valid email address and password";
+    			document.getElementsByClassName("error")[0].innerHTML = "Please enter a valid email address";
     			return false;
-    		} else {
+            }  else {
     			return true;
     			document.getElementsByClassName("error")[0].innerHTML = "</br>";
     		}
@@ -125,7 +128,7 @@
 		<input class="radio" type="radio" title="Other" name="gender" id="Other" value="Other">
 		<input class="input" type="text" title="Email" name="email">
 		<input class="input" type="text" title="Confirm Email" name="email2">
-		<input class="input" type="password" title="Password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" name="password">
+		<input class="input" type="password" title="Password" name="password">
 		<input class="input" type="password" title="Confirm Password" name="password2">
 		<input class="input" type="submit" name="CreateUser" value="Create">
 	</form>

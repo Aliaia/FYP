@@ -7,7 +7,7 @@
         session_start();
         
         if (isset($_SESSION['login_user']) == false) {
-            header("Location: ../Views/UserLogin.php");
+            header("Location: ../UserLogin.php");
         }
 
     ?>

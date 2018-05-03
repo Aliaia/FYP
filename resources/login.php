@@ -8,27 +8,37 @@ include 'config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$email = $_POST["email"];
-	$password = $_POST["password"];
+	$enteredPassword = $_POST["password"];
 
-	//gt all data from the authentication collection where email and password are the same
-	$userData = getData('Authentication', ['Email' => $email, 'password' => $password])->toArray();
+	//get all data from the authentication collection where email matches
+	$userData = getData('Authentication', ['Email' => $email])->toArray();
 	$data = json_decode(json_encode($userData), true);
 
-	print_r($data[0]['identification']);
-
-	$personalData = getData('Users', ['_id' => new MongoDB\BSON\ObjectID($data[0]['identification']['$oid'])]) ->toArray();
-
-	$personalData = json_decode(json_encode($personalData), true);
-
-	//if there is one user, log in
-	//uses PHP sessions to save user ID to get their data within the application
+	//if there's only on value returned
 	if (count($userData) == 1) {
-		$_SESSION['login_user']= ['ID' => $data[0]['identification']['$oid'], 'Name' => $personalData[0]['Name']['Text']];
-		header("Location: ../Views/App/graphs.php");
-	} else {
-		$_SESSION['login_user'] = 'Denied';
-		header("Location: ../Views/UserLogin.php");
-	}
+
+		$data = $data[0];
+		
+		//verify that the hashed salted password matches the current password
+		if(password_verify($enteredPassword, $data['password'])) {
+
+					//get all personal data for the user
+					$personalData = getData('Users', ['_id' => new MongoDB\BSON\ObjectID($data['identification']['$oid'])]) ->toArray();
+
+					$personalData = json_decode(json_encode($personalData), true);
+
+					//sets the session variable with userID to be able to access the web application
+					$_SESSION['login_user']= ['ID' => $data['identification']['$oid'], 'Name' => $personalData[0]['Name']['Text']];
+					header("Location: ../Views/App/graphs.php");
+					exit;
+		
+		}
+
+	};
+
+	//if user has not been found, they are redirected back to the login page
+	$_SESSION['login_user'] = 'Denied';
+	header("Location: ../Views/UserLogin.php");
 
 }
 

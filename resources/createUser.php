@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$gender = $_POST['gender'];
 	$birthday = $_POST['birthday'];
 	$email = $_POST['email'];
-	$password = $_POST['password'];
+	$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 	$nameText = $firstName . ' ' . $middleName . ' ' . $lastName;
 	$givenName = $firstName . ' ' . $middleName;
 

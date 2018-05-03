@@ -8,7 +8,7 @@
         include '../../resources/config.php';
         
         if (isset($_SESSION['login_user']) == false) {
-            header("Location: ../Views/UserLogin.php");
+            header("Location: ../UserLogin.php");
         };
 
     ?>
@@ -42,7 +42,7 @@
                 <li><a class="active" href="profile.php" id="userName"></a></li>
                 <li><a href="logAReading.php">Log a Reading</a></li>
                 <li><a href="graphs.php">Graphs</a></li>
-                <!-- <li><a href="personalData.php">Data</a></li> -->
+                <li><a href="personalData.php">Data</a></li>
                 <!-- <li><a href="settings.php">Settings</a></li> -->
                 <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>

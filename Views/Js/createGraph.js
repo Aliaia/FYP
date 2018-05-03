@@ -1,6 +1,17 @@
 //selection of colours for graph lines
 colorOrder = ['#009933', '#ff9933', '#ff0000', '#ff33cc', '#6600ff', '#cc66ff', '#00ff99', '#99ccff', '#ffff00', '#ff0066'];
 
+//If a user wants to discard a graph, they're asked if they're sure.
+function discardGraph(){
+    var confirm = window.confirm("Are you sure you want to discard this graph?");
+
+    if(confirm) {
+        window.location.href = '../App/graphs.php';
+    }
+    return false;
+
+}
+
 
 //gets the last value from the given data
 //append the lines label to the last know data point if not complete data
@@ -123,8 +134,7 @@ function createGraph(name, userData, variables, addLabel) {
 		        .attr('stroke', colorOrder[0])
 		        .attr('stroke-linecap', 'round')
 		        .attr('stroke-width', 1)
-		        .attr('fill', 'none')
-		        .attr("data-legend", attribute);
+		        .attr('fill', 'none');
 
 			var circles = vis.selectAll("point")
 			    .data(graphData)
@@ -171,9 +181,26 @@ function createGraph(name, userData, variables, addLabel) {
     	    	.style('font-size', '15px')
         	position = position + 20;
 
-        	for (key in points[0]){
-        		showData.append("tspan")
-    	    		.text(format(key) + ": " + (format(points[0][key])))
+            //delete identifications, so not to print them to the screen
+            //format the date to print nicely
+            userData[i] = format(userData[i]);
+
+            //append each measurement to the text area
+        	for (key in userData[i]){
+                measure = userData[i][key];
+                unit = "";
+                
+                //if a measurement is recorded 
+                if (userData[i][key]["Measure"]) {
+                    measure = userData[i][key]["Measure"];
+                };
+                //if a unit is recorded
+                if(userData[i][key]["Unit"]) {
+                    unit = userData[i][key]["Unit"];
+                };
+        		
+                showData.append("tspan")
+    	    		.text(key + ": " + measure + " " + unit)
     	    		.attr('y', (position))
     	    		.attr('x', (-10))
     	    		.style('text-anchor', 'start')
@@ -188,11 +215,25 @@ function createGraph(name, userData, variables, addLabel) {
         };
     }
 
-    function format(entry){
-    	if (typeof(entry) == "object") {
-    		entry = entry.toDateString();
-    	} 
-    	return entry
+    function format(data){
+
+        // console.log(data);
+
+        delete data["_id"];
+        delete data["Identification"];
+        data["DateTime"] = new Date(data["DateTime"]);
+
+        return data;
+
+        // if (key == "_id" || key == "Identification") {
+        //     delete data[key];
+        // } else if (key == "DateTime") {
+        //     // console.log(new Date(data[key]))
+        //     data[key] = new Date(data[key])
+
+        // };
+        // // console.log(data);
+        // return data;
     }
 
     function handleMouseOut(d, i) {

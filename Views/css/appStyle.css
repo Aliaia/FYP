@@ -274,6 +274,7 @@ svg text {
     margin: 10px;
     min-height: calc(100vh - 289px);
     left: 170px;
+    padding-bottom: 10px;
 }
 
 .createButton {
@@ -284,6 +285,14 @@ svg text {
 	width: 20px;
 	height: 20px;
 	cursor: pointer;
+}
+
+.fieldError{
+	position: relative;
+    top: 45px;
+    margin: 0;
+    margin-left: 10px;
+    color: red;
 }
 
 #error{
@@ -304,5 +313,9 @@ svg text {
 }
 
 .profileElements {
+	list-style: none;
+}
+
+.conditionData {
 	list-style: none;
 }

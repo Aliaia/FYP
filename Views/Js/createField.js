@@ -4,11 +4,10 @@ function createNewField(data){
 	var name = data['Measurement Name[Measure]'].value;
 	var measureUnit = data['Unit (optional)[Measure]'].value;
 	var type = data.MeasurementType.value;
-
 	if (name) {
 		var formList = document.getElementById("formAttributes")
 
-		createListElement(name, type, measureUnit, formList);
+		createListElement(name, type, measureUnit, formList, 'createData');
 	};
 	
     removeNewForm();
@@ -26,15 +25,21 @@ function createNewField(data){
 //If the user selects discard instead of save when creating a new field
 function discardNewField() {
 
-	removeNewForm();
-    removeGreyOut();
+    var confirm = window.confirm("Are you sure you want to discard this field?");
 
-    return false
+    if (confirm) {
+
+	    removeNewForm();
+        removeGreyOut();
+        return false
+    }
+
+    return true;
 
 }
 
 //Creates a new li element in the list  of form elements
-function createListElement(name, type, measureUnit, element){
+function createListElement(name, type, measureUnit, element, formName){
 
     //create initial li element
 	var divContainer = document.createElement('li');
@@ -47,7 +52,7 @@ function createListElement(name, type, measureUnit, element){
         label.setAttribute('class', 'inputLabel');
         label.textContent = name;
 
-    if (type !== 'text') {
+    if (type !== 'text' && type !== 'Text') {
         var input = document.createElement('input');
         input.setAttribute('class', 'formInput');
         input.setAttribute('name', (name + '[Measure]'));
@@ -56,7 +61,7 @@ function createListElement(name, type, measureUnit, element){
     } else {
         var input = document.createElement('textarea');
         input.setAttribute('class', 'formInput');
-        input.setAttribute('form', 'newForm');
+        input.setAttribute('form', formName);
         input.setAttribute('name', (name + '[Measure]'));
         input.setAttribute('title', name);
 
@@ -86,60 +91,82 @@ function createListElement(name, type, measureUnit, element){
 //greys out the list elements, and submit buttons
 function greyout(){
 
-	var listElements = document.getElementsByClassName('formElement')
-        var SubmitElements = document.getElementsByClassName('submitButton')
+	var listElements = document.getElementsByClassName('formElement');
+    var SubmitElements = document.getElementsByClassName('submitButton');
+    var plusButton = document.getElementsByClassName('plus')[0];
+    plusButton.setAttribute('disabled', 'disabled');
+    plusButton.setAttribute('src', '../../Static/images/plus-button-grey.png')
 
-        //grey out buttons
-        for (element in SubmitElements){
-            if (SubmitElements[element].nodeName =="INPUT") {
-                SubmitElements[element].setAttribute('disabled', 'disabled');
-            };
-        }
+    //grey out buttons
+    for (element in SubmitElements){
+        if (SubmitElements[element].nodeName =="INPUT") {
+            SubmitElements[element].setAttribute('disabled', 'disabled');
+        };
+    }
 
-        //grey out form elements
-        for (element in listElements){   
-            if(listElements[element].nodeName =="LI"){
-                var input = listElements[element].querySelector('input');
-                input.setAttribute('disabled', 'disabled');
-            }
+    //grey out form elements
+    for (element in listElements){   
+        if(listElements[element].nodeName =="LI"){
+            var input = listElements[element].querySelector('input');
+            input.setAttribute('disabled', 'disabled');
         }
+    }
 }
 
 
 //removes the grey out on list elements and sbmit buttons
 function removeGreyOut(){
 
-	var listElements = document.getElementsByClassName('formElement')
-        var SubmitElements = document.getElementsByClassName('submitButton')
+	var listElements = document.getElementsByClassName('formElement');
+    var SubmitElements = document.getElementsByClassName('submitButton');
+    var plusButton = document.getElementsByClassName('plus')[0];
+    plusButton.removeAttribute('disabled');
+    plusButton.setAttribute('src', '../../Static/images/plus-button.png')
 
-        //grey out buttons
-        for (element in SubmitElements){
-            if (SubmitElements[element].nodeName =="INPUT") {
-                SubmitElements[element].removeAttribute('disabled');
-            };
-        }
+    //grey out buttons
+    for (element in SubmitElements){
+        if (SubmitElements[element].nodeName =="INPUT") {
+            SubmitElements[element].removeAttribute('disabled');
+        };
+    }
 
-        //grey out form elements
-        for (element in listElements){   
-            if(listElements[element].nodeName =="LI"){
-                var input = listElements[element].querySelector('input');
-                input.removeAttribute('disabled');
-            }
+    //grey out form elements
+    for (element in listElements){   
+        if(listElements[element].nodeName =="LI"){
+            var input = listElements[element].querySelector('input');
+            input.removeAttribute('disabled');
         }
+    }
 }
 
 //removes the 'create new field' form on submission 
 function removeNewForm() {
 	var newForm = document.getElementsByClassName('newForm')
-	console.log(newForm);
 	newForm[0].remove();
 
 }
 
-function formatValues(){
-    //TODO: add form processing
-
-	return true;
+//finds form elements and if there's atleast one value added to the form, it'll submit
+function formatValues(data){
+    var hasValues = false;
+    for (attribute in data){
+        if (
+        typeof data[attribute] == 'object' && 
+        data[attribute] != null && 
+        (data[attribute].nodeName == 'INPUT' || data[attribute].nodeName == 'TEXTAREA') &&
+        data[attribute].type != 'hidden' && 
+        data[attribute].type != 'submit') 
+        {
+            if(data[attribute].value != ""){
+                hasValues = 'true'
+                return true
+            };
+        };
+    }
+    var error = document.getElementsByClassName('fieldError')[0];
+    console.log(error);
+    error.innerHTML = "No data has been entered";
+    return false;
 }
 
 //checks to see if the item is in the 2D array
@@ -173,3 +200,14 @@ function getUniqueAttributes(data){
 
         return filtered;
     }
+
+
+//If a user clicks discard, they're asked if they're sure first.
+function discardReading() {
+    var confirm = window.confirm("Are you sure you want to discard your reading?");
+
+    if(confirm) {
+        window.location.href = '../App/graphs.php';
+    }
+    return false;
+}

@@ -7,7 +7,7 @@
         session_start();
         
         if (isset($_SESSION['login_user']) == false) {
-            header("Location: ../Views/UserLogin.php");
+            header("Location: ../UserLogin.php");
         }
 
         include '../../resources/config.php';
@@ -33,8 +33,8 @@
             newForm.setAttribute("id", "newForm");
             formList.appendChild(newForm);
 
-        createListElement('Measurement Name', 'text', '', newForm);
-        createListElement('Unit (optional)', 'text', '', newForm);
+        createListElement('Measurement Name', 'text', '', newForm, 'newForm');
+        createListElement('Unit (optional)', 'text', '', newForm, 'newForm');
 
         var MeasurementType = document.createElement('li');
             MeasurementType.setAttribute('class', 'formElement');
@@ -101,7 +101,7 @@
                 <li><a href="profile.php" id="userName"></a></li>
                 <li><a class="active" href="logAReading.php">Log a Reading</a></li>
                 <li><a href="graphs.php">Graphs</a></li>
-                <!-- <li><a href="personalData.php">Data</a></li> -->
+                <li><a href="personalData.php">Data</a></li>
                 <!-- <li><a href="settings.php">Settings</a></li> -->
                 <li><a href="../../resources/logout.php"> Log Out </a></li>
             </ul>
@@ -111,13 +111,13 @@
             <div class="title"> Log a Reading </div>
             <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
             <input type="image" onclick="return AddFormAttributes()" class="plus" src="../../Static/images/plus-button.png" title="Add Measurement">
-
-            <form name="createData" class="inputForm" action="../../resources/createReading.php" method="post" onsubmit="return formatValues();">
+            <p class="fieldError"> <br> </p>
+            <form name="createData" id="createData" class="inputForm" action="../../resources/createReading.php" method="post" >
                 <ul id="formAttributes">
 
                 </ul>
-                <input type="Submit" class="submitButton" value="Submit Reading">
-                <input type="Submit" class="submitButton" value="Discard Reading">
+                <input type="Submit" class="submitButton" value="Submit Reading" onclick="return formatValues(this.form)">
+                <input type="Submit" class="submitButton" value="Discard Reading" onclick="return discardReading()">
 
             </form>
 
@@ -142,7 +142,7 @@
 
                     for (attribute in FormData) {
 
-                        createListElement(FormData[attribute][0], FormData[attribute][2], FormData[attribute][1], formList);
+                        createListElement(FormData[attribute][0], FormData[attribute][2], FormData[attribute][1], formList, 'createData');
 
                     }
 
