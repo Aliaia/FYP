@@ -22,16 +22,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		//verify that the hashed salted password matches the current password
 		if(password_verify($enteredPassword, $data['password'])) {
 
-					//get all personal data for the user
-					$personalData = getData('Users', ['_id' => new MongoDB\BSON\ObjectID($data['identification']['$oid'])]) ->toArray();
+			//get all personal data for the user
+			$userData = getData('Users', ['_id' => new MongoDB\BSON\ObjectID($data['identification']['$oid'])]) ->toArray();
 
-					$personalData = json_decode(json_encode($personalData), true);
+			$professionalData = getData('Professionals', ['_id' => new MongoDB\BSON\ObjectID($data['identification']['$oid'])]) ->toArray();
+			if (count($userData) > 0) {
+				
+				$userData = json_decode(json_encode($userData), true);
 
-					//sets the session variable with userID to be able to access the web application
-					$_SESSION['login_user']= ['ID' => $data['identification']['$oid'], 'Name' => $personalData[0]['Name']['Text']];
-					header("Location: ../Views/App/graphs.php");
-					exit;
-		
+				//sets the session variable with userID to be able to access the web application
+				$_SESSION['login_user']= ['ID' => $data['identification']['$oid'], 'Name' => $userData[0]['Name']['Text']];
+				header("Location: ../Views/App/graphs.php");
+				exit;
+
+			} elseif (count($professionalData) > 0) {
+
+				$professionalData = json_decode(json_encode($professionalData), true);
+
+				//sets the session variable with userID to be able to access the web application
+				$_SESSION['login_user']= ['ID' => $data['identification']['$oid'], 'Name' => $professionalData[0]['Name']['Text']];
+				header("Location: ../Views/App/patients.php");
+				exit;
+				
+			}		
 		}
 
 	};

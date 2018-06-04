@@ -61,7 +61,7 @@ h1, h2{
 	text-decoration: none;
 	padding: 15px;
 	border-bottom: 1px white solid;
-	width: 100px;
+	width: 125px;
 }
 
 .Nav-bar li a {
@@ -110,21 +110,21 @@ h1, h2{
 	padding-left: 10px;
     position: relative;
     left: 180px;
+    z-index: 0;
 }
 
 .title {
 	margin: 10px;
     font-size: 16px;
-    width: 100px;
-    position: absolute;
+    position: relative;
     font-weight: bold;
+    float: left;
 }
 
 .help{
 	width: 20px;
     height: 20px;
-    left: 118px;
-    position: absolute;
+    position: relative;
     margin: 10px;
 }
 
@@ -176,8 +176,9 @@ svg text {
 }
 
 #newGraphs{
+	z-index: -1;
 	top: 40px;
-	width: 450px;
+	width: 1000px;
 	position: relative;
 	min-height: calc(100vh - 289px);
 	margin: 10px;
@@ -264,13 +265,12 @@ svg text {
 
 .graphPage{
 	position: relative;
-    top: 50px;
     margin: 10px;
     min-height: calc(100vh - 289px);
 }
 .page{
 	position: relative;
-    top: 50px;
+    top: 10px;
     margin: 10px;
     min-height: calc(100vh - 289px);
     left: 170px;
@@ -282,6 +282,7 @@ svg text {
 }
 
 .editButton{
+	left: 590px;
 	width: 20px;
 	height: 20px;
 	cursor: pointer;
@@ -318,4 +319,96 @@ svg text {
 
 .conditionData {
 	list-style: none;
+}
+
+.patientTable {
+	margin: 20px;
+	margin-top: 0px;
+	width: 500px;
+}
+
+.patientTable tr {
+	height: 40px;
+	text-align: center;
+}
+
+.patientTable tr td {
+	border-bottom: 1px solid #a8b3bd;
+	cursor: pointer;
+}
+
+.patientTable tr th {
+	border-bottom: 1px solid #a8b3bd;
+}
+
+#table table {
+	background: #e2e6e9;
+	margin-left: 20px;
+	border: 1px solid #a8b3bd;
+	border-collapse: collapse;
+}
+
+#table table thead {
+	background: #a8b3bd;
+}
+
+#table table tbody tr:hover {
+	background: #c5cdd3;
+}
+
+#table table thead tr th {
+	border-top: 1px solid #a8b3bd;
+	border-bottom: 1px solid #a8b3bd;
+	width: 250px;
+}
+
+#table table tbody tr td {
+	border-top: 1px solid #a8b3bd;
+	border-bottom: 1px solid #a8b3bd;
+	text-align: center;
+	height: 35px;
+}
+
+.editMedication{
+	width: 20px;
+	position: relative;
+	float: right;
+	margin-right: 25px;
+}
+.addMedication{
+	width: 20px;
+	position: relative;
+	margin-left: 20px;
+	z-index: 3;
+}
+
+.newMedicationForm{
+	position: relative;
+	padding: 20px;
+	width: 210px;
+}
+
+.medicationText{
+	position: relative;
+}
+
+.patientMedication{
+	position: relative;
+}
+
+.inputsBox{
+
+    position: relative;
+    float: right;
+    margin-top: -160px;
+    width: 100px;
+}
+
+.inputBoxes{
+	margin-bottom: 12px;
+}
+
+.medicationTitle{
+	position: relative;
+	width: 250px;
 }

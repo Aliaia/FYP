@@ -18,7 +18,7 @@
             $UserData = getData('Users', ['_id' => new MongoDB\BSON\ObjectID($_SESSION['login_user']['ID'])])->toArray();
             $UserData = json_decode(json_encode($UserData[0]),true);
 
-            $Graphs = $UserData['SpecifiedGraphs'];
+            $Graphs = $UserData['Extension0']['ValueCodeableConcept'];
             foreach ($Graphs as $GraphName => $GraphElements) {
                 if ($GraphElements[0]['$oid'] == $_GET['Graph']) {
                     echo ("<script> var GraphType = '" . $GraphName . "';</script>");
@@ -80,7 +80,10 @@
     <title>Condition Tracker</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/appStyle.css"> <!-- custom styles -->
+    <link rel="stylesheet" href="../css/appStyle.css">
+    <!-- intro.js -->
+    <script src="../../Static/introjs/intro.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../Static/introjs/introjs.css">
 
 </head>
 <body onload="onLoad()">
@@ -107,16 +110,16 @@
 
         <div class="content">     
             <div class="title"> Create Graph </div>
-            <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
+            <input type="image" onclick="introJs().start();" class="help" src="../../Static/images/question-mark-button.png" title="Help!">
 
-            <div class="graphPage">
+            <div class="graphPage" data-intro="Use this page to create and save new graphs.">
                 <p id="error"></p> 
                 <form name="createForm" method="post" action="../../resources/newGraph.php" onsubmit="return formValidation()">
-                    <label class="graphNameLabel"><b>Graph Name: </b></label>
+                    <label class="graphNameLabel" ><b>Graph Name: </b></label>
                     <input type="text" name="graphName" class="graphTitle">
                     <input type="hidden" id="graphID" name="graphID" value="">
                     <input type="hidden" name="activeElements" id="graphElements" value="" >
-                    <ul id="attributes">
+                    <ul data-intro="Choose elements to display on the graph" id="attributes">
                         <li><p><b>Graph Elements</b></p></li>
                         
                     </ul>
@@ -170,12 +173,14 @@
 
                         var submitButton = document.createElement('li');
                         submitButton.setAttribute('class', 'addAttribute');
+
                         list.appendChild(submitButton);
 
                         var button = document.createElement('input');
                         button.setAttribute('type', 'submit');
                         button.setAttribute('class', 'createButton');
                         button.setAttribute('value', 'Create Graph');
+                        button.setAttribute('data-intro', 'Once the graph is complete, click submit to save the graph.')
                         submitButton.appendChild(button);
 
                         var discardbutton = document.createElement('input');

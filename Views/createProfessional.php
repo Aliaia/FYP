@@ -12,15 +12,13 @@
 
     	// Checks to see if the inputed data is valid to be submitted
     	function validateForm() {
-    		var firstName = document.forms["createUser"]["firstName"].value;
-    		var middleName = document.forms["createUser"]["middleName"].value;
-    		var lastName = document.forms["createUser"]["lastName"].value;
-    		var gender = document.forms["createUser"]["gender"].value;
-    		var birthday = document.forms["createUser"]["birthday"].value;
-    		var email = document.forms["createUser"]["email"].value;
-    		var email2 = document.forms["createUser"]["email2"].value
-    		var password = document.forms["createUser"]["password"].value;
-    		var password2 = document.forms["createUser"]["password2"].value
+    		var firstName = document.forms["createProfessional"]["firstName"].value;
+    		var middleName = document.forms["createProfessional"]["middleName"].value;
+    		var lastName = document.forms["createProfessional"]["lastName"].value;
+    		var email = document.forms["createProfessional"]["email"].value;
+    		var email2 = document.forms["createProfessional"]["email2"].value
+    		var password = document.forms["createProfessional"]["password"].value;
+    		var password2 = document.forms["createProfessional"]["password2"].value
     		
     		var passwordRE = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
     		var emailRE = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -30,12 +28,6 @@
     			return false;
     		} else if (lastName == "" ) {
     			document.getElementsByClassName("error")[0].innerHTML = "A last name is required";
-    			return false;
-    		} else if (gender == "" ) {
-    			document.getElementsByClassName("error")[0].innerHTML = "Gender is required";
-    			return false;
-    		} else if (birthday == "") {
-    			document.getElementsByClassName("error")[0].innerHTML = "A birthdate is required";
     			return false;
     		} else if (email == "") {
     			document.getElementsByClassName("error")[0].innerHTML = "An email is required";
@@ -105,32 +97,22 @@
 		First Name: *	</br>
 		Middle Name: </br>
 		Last Name: * </br>
-		Birthday: * </br>
-		Gender: * </br>
-		Email Address: * </br>
+		NHS Email Address: * </br>
 		Confirm Email: * </br>
 		Password: *</br>
 		Confirm Password: *</br>
 
 	</div>
 
-	<form class="inputForm" name="createUser" method="post" action="../resources/createUser.php" onsubmit="return validateForm()">
+	<form class="inputForm" name="createProfessional" method="post" action="../resources/createProfessional.php" onsubmit="return validateForm()">
 		<input class="input" type="text" title="First Name" name="firstName"> 
 		<input class="input" type="text" title="Middle Name" name="middleName">
 		<input class="input" type="text" title="Last Name" name="lastName"> 
-		<input class="input" type="date" title="Birthday" name="birthday"> 
-		<label class="radio" for="Female">Female</label>
-		<label class="radio" for="Male">Male</label>
-		<label class="radio" for="Other">Other</label>
-		</br>
-		<input class="radio" type="radio" title="Female" name="gender" id="Female" value="Female">
-		<input class="radio" type="radio" title="Male" name="gender" id="Male" value="Male">
-		<input class="radio" type="radio" title="Other" name="gender" id="Other" value="Other">
 		<input class="input" type="text" title="Email" name="email">
 		<input class="input" type="text" title="Confirm Email" name="email2">
 		<input class="input" type="password" title="Password" name="password">
 		<input class="input" type="password" title="Confirm Password" name="password2">
-		<input class="input" type="submit" name="CreateUser" value="Create">
+		<input class="input" type="submit" name="CreateProfessional" value="Create">
 	</form>
 </div>
 </body>

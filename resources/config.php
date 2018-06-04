@@ -33,4 +33,24 @@ function writeData($database, $data){
 	$connect->executeBulkWrite('FYP.' . $database, $write);
 }
 
+function getPatients($ID) {
+	global $connect;
+	$names = [];
+
+	$query = new MongoDB\Driver\Query(['_id' => new MongoDB\BSON\ObjectID($ID)]);
+	$cursor = $connect->executeQuery('FYP.Professionals', $query)->toArray();
+
+	$professionalData = json_decode(json_encode($cursor), true);
+	$patients = $professionalData[0]['Extension0']['ValueCodeableConcept'];
+
+	foreach ($patients as $patient) {
+		$patient = getData('Users', ['_id' => new MongoDB\BSON\ObjectID($patient)]) ->toArray();
+		$patient = json_decode(json_encode($patient), true);
+		$patient = [$patient[0]['Name']['Text'], $patient[0]['Birthdate'], $patient[0]['_id']];
+		array_push($names, $patient);
+	}
+
+	return $names;
+}
+
 ?>

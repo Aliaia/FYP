@@ -20,6 +20,8 @@
     function onLoad(){
         var identification = <?php print_r("'" . $_SESSION['login_user']['ID'] . "'") ?>;
         document.getElementById("userName").innerHTML = <?php print("'" . $_SESSION['login_user']['Name'] . "'") ?>;
+        document.getElementById("newGraphs").querySelectorAll("svg")[0].setAttribute('data-intro', 'Roll over data points to show details');
+        document.getElementsByClassName('editButton')[0].setAttribute('data-intro', 'To edit the graph, click the pencil button.');
     }
 
     
@@ -34,7 +36,9 @@
     <!-- D3 -->
     <script src="http://d3js.org/d3.v2.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
-
+    <!-- intro.js -->
+    <script src="../../Static/introjs/intro.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../Static/introjs/introjs.css">
 
 </head>
 <body onload="onLoad()">
@@ -60,20 +64,19 @@
 
         <div class="content">     
             <div class="title"> User Graphs </div>
-            <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
+            <input type="image" onclick="introJs().start();" class="help" src="../../Static/images/question-mark-button.png" title="Help!">
             
             <a href="createGraph.php">
-                <img class="plus" src="../../Static/images/plus-button.png" title="Add New Graph">
+                <img class="plus" data-intro="Click here to create a new graph." src="../../Static/images/plus-button.png" title="Add New Graph">
             </a>
 
-            <div id="newGraphs">
+            <div id="newGraphs" data-intro="Once graphs have been created they will appear here.">
                     <script type="text/javascript" >
 
                         var userData = <?php print_r(json_encode(getConditionData($_SESSION['login_user']['ID'])->toArray())); ?>;
 
                         var div = document.getElementById('newGraphs');
                         var error = document.createElement('p');
-                        console.log(userData);
                         
                         if (userData.length == 0) {
 
@@ -86,7 +89,8 @@
                         } else {
                             var graphs = <?php print_r(json_encode(getData("Users", ['_id' => new MongoDB\BSON\ObjectId($_SESSION['login_user']['ID'])])->toArray())) ?>;
 
-                            var graphs = graphs[0]['SpecifiedGraphs'];
+                            console.log(graphs);
+                            var graphs = graphs[0]['Extension0']['ValueCodeableConcept'];
 
                             if (Object.keys(graphs).length == 0) {
                                 error.innerHTML = 'Create a graph to view your logged data by clicking the plus button.';
@@ -95,6 +99,7 @@
 
                                 //for each saved graph in a users document, create the graph.
                                 for (key in graphs){
+                                    console.log(graphs[key]);
                                     createGraph(key, userData, graphs[key], true);
                                 }
                             };

@@ -83,6 +83,9 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/appStyle.css">
+    <!-- intro.js -->
+    <script src="../../Static/introjs/intro.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../Static/introjs/introjs.css">
 
 </head>
 <body onload="onLoad()">
@@ -109,14 +112,14 @@
         
         <div class="content">	  
             <div class="title"> Log a Reading </div>
-            <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
-            <input type="image" onclick="return AddFormAttributes()" class="plus" src="../../Static/images/plus-button.png" title="Add Measurement">
+            <input type="image" onclick="introJs().start();" class="help" src="../../Static/images/question-mark-button.png" title="Help!">
+            <input type="image" onclick="return AddFormAttributes()" data-intro="Add a new field to record data" class="plus" src="../../Static/images/plus-button.png" title="Add Measurement">
             <p class="fieldError"> <br> </p>
-            <form name="createData" id="createData" class="inputForm" action="../../resources/createReading.php" method="post" >
+            <form name="createData" id="createData" data-intro="When fields have been added, they'll show here.") class="inputForm" action="../../resources/createReading.php" method="post" >
                 <ul id="formAttributes">
 
                 </ul>
-                <input type="Submit" class="submitButton" value="Submit Reading" onclick="return formatValues(this.form)">
+                <input type="Submit" class="submitButton" data-intro="Once filled in, click submit to save data" value="Submit Reading" onclick="return formatValues(this.form)">
                 <input type="Submit" class="submitButton" value="Discard Reading" onclick="return discardReading()">
 
             </form>

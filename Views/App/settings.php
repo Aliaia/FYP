@@ -48,7 +48,7 @@
         </nav>
         	  
         <div class="content">     
-            <div class="title"> Log a Reading </div>
+            <div class="title"> Settings </div>
             <img class="help" src="../../Static/images/question-mark-button.png" title="Help">
         </div>  
         <div class="page">

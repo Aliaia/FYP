@@ -1,18 +1,22 @@
+
 //puts data into the correct layout for the create graph function.
 //sorts the data into time for when setting time is implemented in log a reading.
 function dataFormatting(variables, dataset){
 	
 	requiredData = [];
 
-        for (var i = 0; i < dataset.length; i++) {
-            requiredData[i] = {};
-            requiredData[i]["Date"] = new Date(dataset[i].DateTime);
-            for (var j = 0; j < variables.length; j++) {
-                if (dataset[i][variables[j]]) {
-                    requiredData[i][variables[j]] = dataset[i][variables[j]].Measure;
-                };
+    for (var i = 0; i < dataset.length; i++) {
+        requiredData[i] = {};
+        requiredData[i]["Date"] = new Date(dataset[i].DateTime);
+        for (var j = 0; j < variables.length; j++) {
+            if (dataset[i][variables[j]] && dataset[i][variables[j]].Measure) {
+                requiredData[i][variables[j]] = dataset[i][variables[j]].Measure;
+            } else {
+                requiredData[i][variables[j]] = dataset[i][variables[j]];
             };
+
         };
+    };
     
     sortByDate(requiredData);
     return(requiredData);
@@ -49,4 +53,30 @@ function sortByDate(dataset){
     });
 
     return dataset;
+}
+
+//gets the last value from the given data
+//append the lines label to the last know data point if not complete data
+function getLastValue(data, attribute){
+    for (var i = data.length - 1; i >= 0; i--) {
+        if(data[i][attribute]){
+            return i
+        }
+    };
+}
+
+//create x axis
+function make_x_axis(xScale) {
+    return d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom")
+        .ticks(5)
+}
+
+//create y axis
+function make_y_axis(yScale) {
+    return d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        .ticks(5)
 }

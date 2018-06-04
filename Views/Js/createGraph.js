@@ -13,16 +13,6 @@ function discardGraph(){
 }
 
 
-//gets the last value from the given data
-//append the lines label to the last know data point if not complete data
-function getLastValue(data, attribute){
-    for (var i = data.length - 1; i >= 0; i--) {
-        if(data[i][attribute]){
-            return i
-        }
-    };
-}
-
 //creates a customised d3 graph 
 function createGraph(name, userData, variables, addLabel) {
 
@@ -48,9 +38,9 @@ function createGraph(name, userData, variables, addLabel) {
     //set variables for x and y axis, and size of graph
  	var DateMinMax = [graphData[0].Date, graphData[lastDate].Date];
  	var DataMinMax = getRange(graphData);
-	var width = 1200;
+	var width = 1000;
     var height = 350;
-    var margin = {top: 40, right: 720, bottom: 70, left: 50};
+    var margin = {top: 40, right: 520, bottom: 70, left: 50};
     
     //if rollover points aren't required, the graph can be smaller
     if(addLabel == false){
@@ -74,7 +64,7 @@ function createGraph(name, userData, variables, addLabel) {
             .append("text")
             .attr("class", "showData")
             .text("")
-            .attr("transform", "translate(" + (margin.right - 60) + "," + (0)+")")
+            .attr("transform", "translate(" + (margin.left + 700) + "," + (0)+")")
 
         addText();
     };
@@ -217,23 +207,12 @@ function createGraph(name, userData, variables, addLabel) {
 
     function format(data){
 
-        // console.log(data);
-
         delete data["_id"];
         delete data["Identification"];
         data["DateTime"] = new Date(data["DateTime"]);
 
         return data;
 
-        // if (key == "_id" || key == "Identification") {
-        //     delete data[key];
-        // } else if (key == "DateTime") {
-        //     // console.log(new Date(data[key]))
-        //     data[key] = new Date(data[key])
-
-        // };
-        // // console.log(data);
-        // return data;
     }
 
     function handleMouseOut(d, i) {
@@ -247,27 +226,11 @@ function createGraph(name, userData, variables, addLabel) {
         }
     }
 
-    //create x axis
-    function make_x_axis() {
-        return d3.svg.axis()
-            .scale(xScale)
-            .orient("bottom")
-            .ticks(5)
-    }
-
-    //create y axis
-    function make_y_axis() {
-        return d3.svg.axis()
-            .scale(yScale)
-            .orient("left")
-            .ticks(5)
-    }
-
 	//append x axis grid
     vis.append("g")
         .attr("class", "grid")
         .attr("transform", "translate(" + margin.left + ", " + (height - margin.bottom) + ")")
-        .call(make_x_axis()
+        .call(make_x_axis(xScale)
             .tickSize((-height + margin.top + margin.bottom), 0, 0)
             .tickFormat("")
         )
@@ -276,7 +239,7 @@ function createGraph(name, userData, variables, addLabel) {
     vis.append("g")
         .attr("class", "grid")
         .attr("transform", "translate(" + (margin.left) + "," + (margin.top) + ")")
-        .call(make_y_axis()
+        .call(make_y_axis(yScale)
             .tickSize((-width + margin.left + margin.right), 0, 0)
             .tickFormat("")
         )
@@ -314,14 +277,15 @@ function createGraph(name, userData, variables, addLabel) {
 
     //add the link to edit the graph
     var editLink = vis.append('a')
-        .attr("transform", "translate(" + (margin.right - 130) + "," + (0)+")")
+        // .attr("transform", "translate(" + (margin.right - 130) + "," + (0)+")")
         .attr("href", ('../App/createGraph.php?Graph=' + graphID) )
         .attr("title", "Edit Graph");
 
 
     editLink.append('image')
         .attr('xlink:href', '../../Static/images/pencil-edit-button.png')
-        .attr('class', 'editButton');
+        .attr('class', 'editButton')
+        .attr('x', (margin.left + 600))
 
     }
 
