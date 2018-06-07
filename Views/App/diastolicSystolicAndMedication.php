@@ -220,7 +220,7 @@
                 vis.append("text")
                     .attr("transform", "translate(" + (width - margin.right + 300) + "," + (legendHeight + 10) + ")" )
                     .attr("text-anchor", "start")
-                    .text(drug + " - " + medication[drug][0])
+                    .text(drug + " - " + medication[drug][1])
 
                 var used = colorOrder.splice(0,1);
                 colorOrder.push(used);

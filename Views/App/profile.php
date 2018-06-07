@@ -105,6 +105,7 @@
 
     function addPractitioner() {
         var element = document.getElementById('Practitioners');
+        alert('By adding a practitioner, they will be able to see all of the data entered in your profile, and condition data.')
         
         var form = document.createElement('form');
         form.setAttribute('method', 'post');
